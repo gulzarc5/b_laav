@@ -28,10 +28,19 @@
     	        <div>
     	            <div class="x_content">
     	           
-    	            	{{ Form::open(['method' => 'post','route'=>'admin.insert_org' ,]) }}
+    	            	{{ Form::open(['method' => 'post','route'=>'admin.insert_org' ,'enctype'=>'multipart/form-data']) }}
     	            	
                         <div class="well" style="overflow: auto">
                             <div class="form-row mb-10">
+                                <div class="col-md-6 col-sm-12 col-xs-12 mb-3">
+                                    <label for="image">Organization Image <span style="color:red">Image Resolution Should be 600 * 500</span></label>
+                                    <input type="file" class="form-control" name="image"  >
+                                    @if($errors->has('image'))
+                                          <span class="invalid-feedback" role="alert" style="color:red">
+                                              <strong>{{ $errors->first('image') }}</strong>
+                                          </span>
+                                      @enderror
+                                </div>
                                 <div class="col-md-6 col-sm-12 col-xs-12 mb-3">
                                   <label for="name">Organization Name</label>
                                   <input type="text" class="form-control" name="name"  placeholder="Enter Organization Name"  value="{{ old('name') }}" >

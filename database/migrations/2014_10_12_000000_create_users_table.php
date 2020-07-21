@@ -31,6 +31,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->char('status',1)->default(1)->comment('1 = free user, 2 = Premium User');
             $table->rememberToken();
+            $table->string('api_token',256)->nullable();
             $table->timestamps();
         });
     }

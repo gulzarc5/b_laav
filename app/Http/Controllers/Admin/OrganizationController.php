@@ -23,9 +23,19 @@ class OrganizationController extends Controller
             'state' => 'required',
             'city' => 'required',
             'pin' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:1000',
         ]);
+        $file_name = null;
+        if ($request->hasFile('image')) {
+            $file = $request->file('image');
+
+            $file_name = time().date('Y-M-d').'.'.$file->getClientOriginalExtension();
+            $path =  base_path().'/public/org_image/';
+            $file->move($path, $file_name);
+        }
         $admin = new Admin();
         $admin->name = $request->input('name');
+        $admin->image = $file_name;
         $admin->email = $request->input('email');
         $admin->password = bcrypt($request->input('password'));
         $admin->code = $request->input('password');

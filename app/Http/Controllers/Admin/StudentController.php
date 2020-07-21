@@ -36,7 +36,7 @@ class StudentController extends Controller
         $student = new User();
         $student->name = $request->input('s_name');
         $student->email = $request->input('email');
-        $student->password = $request->input('password');
+        $student->password = bcrypt($request->input('password'));
         $student->class_id = $request->input('class');
         $student->father_name = $request->input('father_name');
         $student->mobile = $request->input('mobile');

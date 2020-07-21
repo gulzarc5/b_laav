@@ -9,7 +9,7 @@ class SubjectFile extends Model
     protected $table = 'subject_file';
 
     protected $fillable = [
-        'subject_id', 'name', 'org_id','description','pdf_file','status'
+        'subject_id', 'name', 'org_id','pdf_file','status'
     ];
 
     public function subject()
