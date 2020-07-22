@@ -36,6 +36,7 @@ Route::group(['namespace' => 'Admin'],function(){
             Route::get('/Free/list/ajax', 'StudentController@listFreeStudentAjax')->name('admin.free_student_list_ajax');
             Route::get('/add/form', 'StudentController@addStudent')->name('admin.student_add');
             Route::post('/insert', 'StudentController@insertStudent')->name('admin.insert_student');
+            Route::get('/request/list', 'StudentController@listRequestStudent')->name('admin.request_student_list');
         });
 
         Route::group(['prefix' => 'class'],function(){

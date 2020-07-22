@@ -9,6 +9,6 @@ class RegRequest extends Model
     protected $table = 'reg_req';
 
     protected $fillable = [
-        'name','father_name','email','mobile','dob','address','city','pin',
+        'name','father_name','email','mobile','dob','address','city','pin','status'
     ];
 }

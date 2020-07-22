@@ -12,6 +12,7 @@ use App\Model\Classes;
 use App\Model\Admin;
 use File;
 use Response;
+use App\Model\RegRequest;
 
 class StudentController extends Controller
 {
@@ -70,5 +71,10 @@ class StudentController extends Controller
         $response = Response::make($file, 200);
         $response->header("Content-Type", $type);
         return $response;
+    }
+
+    public function listRequestStudent()
+    {
+        # code...
     }
 }

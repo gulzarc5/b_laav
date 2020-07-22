@@ -97,7 +97,7 @@
                       <li class="sub_menu"><a href="{{route('admin.student_add')}}">Add Student</a></li>
                       <li class="sub_menu"><a href="{{route('admin.pre_student_list')}}">Student List</a></li>
                       <li class="sub_menu"><a href="{{route('admin.free_student_list')}}">Free User List</a></li>
-                      <li class="sub_menu"><a href="#">Registration Request</a></li>
+                      <li class="sub_menu"><a href="{{route('admin.request_student_list')}}">Registration Request</a></li>
                     </ul>
                   </li>
 				  

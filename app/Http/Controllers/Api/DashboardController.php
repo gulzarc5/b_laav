@@ -20,18 +20,17 @@ class DashboardController extends Controller
         $org = Admin::where('id',$org_id)->first();
 
         $class = Classes::with('subject')->where('org_id',$org_id)->get();
+        $classes = [];
         foreach ($class as $key => $value) {
             if ($value->id == $user->class_id) {
-                $value->my_class = true;
-            }else{
-                $value->my_class = false;
+                $classes[] = $value;
             }
         }
         $org_images = Admin::where('id','!=','1')->get(['image','name']);
         $response = [
             'status' => true,
             'org_image' => $org->image,
-            'class' => $class,
+            'class' => $classes,
             'org_images' => $org_images,
         ];    	
         return response()->json($response, 200);
