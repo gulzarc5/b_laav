@@ -27,11 +27,14 @@ class DashboardController extends Controller
             }
         }
         $org_images = Admin::where('id','!=','1')->get(['image','name']);
-        $response = [
-            'status' => true,
+        $data = [
             'org_image' => $org->image,
             'class' => $classes,
             'org_images' => $org_images,
+        ];
+        $response = [
+            'status' => true,
+            'data' => $data,
         ];    	
         return response()->json($response, 200);
     }

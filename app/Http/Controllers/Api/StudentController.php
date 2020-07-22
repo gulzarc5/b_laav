@@ -39,7 +39,7 @@ class StudentController extends Controller
         $class = Classes::with('subject')->where('org_id',$org_id)->get();
         $response = [
             'status' => true,
-            'class' => $class,
+            'data' => $class,
         ];    	
         return response()->json($response, 200);
     }
@@ -73,8 +73,5 @@ class StudentController extends Controller
         return $response;
     }
 
-    public function listRequestStudent()
-    {
-        # code...
-    }
+
 }
