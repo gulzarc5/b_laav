@@ -31,7 +31,9 @@ Route::group(['namespace'=>'Api'], function(){
         
         Route::get('/exam/list/{subject_id}/{user_id}', 'ExamController@examList');
 
-
+        Route::get('/exam/start/{exam_id}/{user_id}', 'ExamController@examStart');
+        Route::get('/submit/question/{stuednt_exam_id}/{question_id}/{answer_id}', 'ExamController@submitQuestion');
+        Route::get('/end/exam/{stuednt_exam_id}/{question_id}/{answer_id}', 'ExamController@endExam');
     });
 });
 

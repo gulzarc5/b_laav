@@ -112,7 +112,13 @@
                   <li><a><i class="fa fa-cogs" aria-hidden="true"></i> Exams <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li class="sub_menu"><a href="{{route('admin.exam_list')}}">Exam</a></li>
-                      <li class="sub_menu"><a href="#">Question</a></li>
+                      <li class="sub_menu"><a href="{{route('admin.bidya_exam_list')}}">Bidya Exam</a></li>
+                    </ul>
+                  </li>
+                  <li><a><i class="fa fa-cogs" aria-hidden="true"></i> Student Exams <span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li class="sub_menu"><a href="{{route('admin.student_exam_list')}}">Exams</a></li>
+                      <li class="sub_menu"><a href="{{route('admin.bidya_exam_list')}}">Bidya Exam</a></li>
                     </ul>
                   </li>
                  

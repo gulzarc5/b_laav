@@ -18,6 +18,8 @@ class CreateStudentExamDetailsTable extends Migration
             $table->bigInteger('student_exam_id');
             $table->string('question_id');
             $table->string('answer_id');
+            $table->char('is_correct',1)->default(1)->comment('1 = no, 2 = yes');
+            $table->string('mark')->nullable();
             $table->timestamps();
         });
     }

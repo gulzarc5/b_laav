@@ -8,6 +8,7 @@ use Auth;
 use App\Model\Classes;
 use App\Model\Stream;
 use App\Model\User;
+use App\Model\RegRequest;
 use DataTables;
 
 class StudentController extends Controller
@@ -32,6 +33,8 @@ class StudentController extends Controller
             'dob' => 'required',
         ]);
         $org_id = Auth::guard('admin')->id();
+        $org_name = Auth::guard('admin')->user()->name;
+        dd();
 
         $student = new User();
         $student->name = $request->input('s_name');
@@ -47,7 +50,10 @@ class StudentController extends Controller
         $student->pin = $request->input('pin');
         $student->org_id = $org_id;
         $student->status = $request->input('user_type');
-        $student->save();
+        if($student->save()){
+            $id = $student->id;
+
+        }
         return redirect()->back()->with('message','Student Added Successfully');
     }
 
@@ -101,5 +107,32 @@ class StudentController extends Controller
             })
             ->rawColumns(['action','class_name'])
             ->make(true);
+    }
+
+    public function listRequestStudent()
+    {
+        return view('admin.users.student_request_list');
+    }
+
+    public function listRequestStudentAjax()
+    {
+        return view('admin.users.student_request_list');
+        $student = RegRequest::orderBy('id','desc');
+        return datatables()->of($student->get())
+        ->addIndexColumn()
+        ->addColumn('action', function($row){
+            $btn ='<a href="#" class="btn btn-warning btn-sm" target="_blank">Make User Id</a>';
+            
+            return $btn;
+        })->addColumn('status_tabs', function($row){
+            if ($row->status == '1') {
+                $btn = "<button class='btn btn-success'>Approved</button>";
+            } else {
+                $btn =  "<button class='btn btn-warning'>Pending</button>";
+            }
+            return $btn;
+        })
+        ->rawColumns(['action','status_tabs'])
+        ->make(true);
     }
 }

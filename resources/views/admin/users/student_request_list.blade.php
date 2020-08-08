@@ -8,7 +8,7 @@
     	    <div class="x_panel">
 
     	        <div class="x_title">
-                    <h2>Organization List</h2>
+                    <h2>Registration Request List</h2>
     	            <div class="clearfix"></div>
     	        </div>
     	        <div>
@@ -17,39 +17,22 @@
                           <thead>
                             <tr>
                               <th>Sl</th>
+                              <th>Date</th>
                               <th>Name</th>
+                              <th>Father Name</th>
                               <th>Email</th>
-                              <th>Password</th>
+                              <th>Mobile</th>
+                              <th>Date of Birth</th>
                               <th>Address</th>
                               <th>State</th>
                               <th>City</th>
                               <th>Pin</th>
-                              <th>Date</th>
+                              <th>Status</th>
+                              <th>Action</th>
                             </tr>
                           </thead>
                           <tbody>  
-                            @if (isset($org) && !empty($org))
-                            @php
-                              $count=1;
-                            @endphp
-                                @foreach ($org as $item)
-                                    <tr>
-                                      <td>{{$count++}}</td>
-                                      <td>{{$item->name}}</td>
-                                      <td>{{$item->email}}</td>
-                                      <td>{{$item->code}}</td>
-                                      <td>{{$item->address}}</td>
-                                      <td>{{$item->state}}</td>
-                                      <td>{{$item->city}}</td>
-                                      <td>{{$item->pin}}</td>
-                                      <td>{{$item->created_at}}</td>
-                                    </tr>
-                                @endforeach
-                            @else
-                              <tr>
-                                <td colspan="9" style="text-align: center">No Organization Found</td>
-                              </tr>  
-                            @endif                   
+                                             
                           </tbody>
                         </table>
     	            </div>
@@ -65,8 +48,29 @@
 @section('script')
      
      <script type="text/javascript">
-         $(function () {
-            var table = $('#category').DataTable();
+        $(function () {
+
+          var table = $('#category').DataTable({
+              processing: true,
+              serverSide: true,
+              iDisplayLength: 25,
+              ajax: "{{ route('admin.pre_student_list_ajax') }}",
+              columns: [
+                  {data: 'DT_RowIndex', name: 'DT_RowIndex'},      
+                  {data: 'created_at', name: 'created_at',searchable: true},    
+                  {data: 'name', name: 'name',searchable: true},          
+                  {data: 'father_name', name: 'father_name',searchable: true},
+                  {data: 'email', name: 'email',searchable: true}, 
+                  {data: 'mobile', name: 'mobile' ,searchable: true}, 
+                  {data: 'dob', name: 'dob' ,searchable: true},
+                  {data: 'address', name: 'address' ,searchable: true},
+                  {data: 'state', name: 'state' ,searchable: true},
+                  {data: 'city', name: 'city' ,searchable: true},
+                  {data: 'pin', name: 'pin' ,searchable: true},
+                  {data: 'status_tabs', name: 'status_tabs' ,searchable: true}, 
+                  {data: 'action', name: 'action' ,searchable: true}, 
+              ]
+          });            
         });
      </script>
     

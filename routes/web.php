@@ -37,6 +37,7 @@ Route::group(['namespace' => 'Admin'],function(){
             Route::get('/add/form', 'StudentController@addStudent')->name('admin.student_add');
             Route::post('/insert', 'StudentController@insertStudent')->name('admin.insert_student');
             Route::get('/request/list', 'StudentController@listRequestStudent')->name('admin.request_student_list');
+            Route::get('/request/list/ajax', 'StudentController@listRequestStudentAjax')->name('admin.request_student_list_ajax');
         });
 
         Route::group(['prefix' => 'class'],function(){
@@ -78,6 +79,41 @@ Route::group(['namespace' => 'Admin'],function(){
             Route::get('/edit/question/form/{question_id}', 'ExamController@editQuestionForm')->name('admin.edit_question_form');
             Route::post('/update/question/', 'ExamController@updateQuestion')->name('admin.update_question');
         });
+
+        Route::group(['prefix' => 'bidya/exam'],function(){
+            Route::get('/list', 'BidyaExamController@listExams')->name('admin.bidya_exam_list');
+            Route::get('/list/ajax', 'BidyaExamController@listExamsAjax')->name('admin.bidya_exam_list_ajax');
+            Route::get('/add/form', 'BidyaExamController@addExamForm')->name('admin.new_bidya_exam_form');
+            // Route::get('/edit/form/{exam_id}', 'ExamController@editExamForm')->name('admin.edit_exam_form');
+            // Route::put('/update/{exam_id}', 'ExamController@updateExamForm')->name('admin.update_exam');
+            Route::post('/insert', 'BidyaExamController@insertExam')->name('admin.insert_bidya_exam');
+            Route::get('/view/question/{exam_id}', 'BidyaExamController@viewQuestion')->name('admin.view_bidya_question');
+            Route::get('/add/question/form/{exam_id}', 'BidyaExamController@addQuestionForm')->name('admin.add_bidya_question_form');
+            Route::post('insert/exam/question','BidyaExamController@insertQuestion')->name('admin.insert_bidya_question');
+            
+            // Route::get('/view/{file_name}', 'BidyaExamController@viewQuestionFile')->name('admin.view_vidya_file_question');
+
+            Route::get('/edit/question/form/{question_id}', 'BidyaExamController@editQuestionForm')->name('admin.edit_bidya_question_form');
+            Route::post('/update/question/', 'BidyaExamController@updateQuestion')->name('admin.update_bidya_question');
+        });
+
+        Route::group(['prefix' => 'student/exam'],function(){
+            Route::get('/list', 'StudentExamController@listExams')->name('admin.student_exam_list');
+            Route::get('/list/ajax', 'StudentExamController@listExamsAjax')->name('admin.student_exam_list_ajax');
+            // Route::get('/add/form', 'BidyaExamController@addExamForm')->name('admin.new_bidya_exam_form');
+            // // Route::get('/edit/form/{exam_id}', 'ExamController@editExamForm')->name('admin.edit_exam_form');
+            // // Route::put('/update/{exam_id}', 'ExamController@updateExamForm')->name('admin.update_exam');
+            // Route::post('/insert', 'BidyaExamController@insertExam')->name('admin.insert_bidya_exam');
+            // Route::get('/view/question/{exam_id}', 'BidyaExamController@viewQuestion')->name('admin.view_bidya_question');
+            // Route::get('/add/question/form/{exam_id}', 'BidyaExamController@addQuestionForm')->name('admin.add_bidya_question_form');
+            // Route::post('insert/exam/question','BidyaExamController@insertQuestion')->name('admin.insert_bidya_question');
+            
+            // // Route::get('/view/{file_name}', 'BidyaExamController@viewQuestionFile')->name('admin.view_vidya_file_question');
+
+            // Route::get('/edit/question/form/{question_id}', 'BidyaExamController@editQuestionForm')->name('admin.edit_bidya_question_form');
+            // Route::post('/update/question/', 'BidyaExamController@updateQuestion')->name('admin.update_bidya_question');
+        });
+
 
     });
 });

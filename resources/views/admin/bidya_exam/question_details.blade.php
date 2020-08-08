@@ -35,7 +35,7 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
           <div class="x_panel">
             <div class="x_title">
-              <h2>Exam Details</h2>
+              <h2>Bidya Laav Exam Details</h2>
               <div class="clearfix"></div>
             </div>
             <div class="x_content">
@@ -46,21 +46,6 @@
                         <div class="row product-view-tag">
                             <h5 class="col-md-4 col-sm-12 col-xs-12"><strong>Exam Name:</strong> 
                                     {{$exam->name}}
-                            </h5>
-                            <h5 class="col-md-4 col-sm-12 col-xs-12"><strong>Stream:</strong> 
-                                @if (isset($exam->class_id) && !empty($exam->class_id))
-                                    {{$exam->class->stream->name}}
-                                @endif
-                            </h5>
-                            <h5 class="col-md-4 col-sm-12 col-xs-12"><strong>Class:</strong>
-                                @if (isset($exam->class_id) && !empty($exam->class_id))
-                                    {{$exam->class->name}}
-                                @endif
-                            </h5>
-                            <h5 class="col-md-4 col-sm-12 col-xs-12"><strong>Subject :</strong> 
-                                @if (isset($exam->subject_id) && !empty($exam->subject_id))
-                                    {{$exam->subject->name}}
-                                @endif
                             </h5>
                             <h5 class="col-md-4 col-sm-12 col-xs-12"><strong>Start date :</strong> 
                                     {{$exam->start_date}}
@@ -83,6 +68,11 @@
                                 @else
                                     <button class="btn btn-sm btn-primary"> Premium</button>
                                 @endif
+                            </h5>
+                            <h5 class="col-md-8 col-sm-12 col-xs-12"><strong>Class:</strong>
+                                    @foreach ($exam->examClass as $item)
+                                        {{$item->class->name}} || 
+                                    @endforeach
                             </h5>
                             
                         </div>
@@ -118,7 +108,7 @@
                                         </span>
                                         <span class="question-right">
                                             Mark : {{$question->mark}}
-                                        <a href="{{route('admin.edit_question_form',['question_id'=>$question->id])}}" class="btn btn-sm btn-warning">Edit</a>
+                                        <a href="{{route('admin.edit_bidya_question_form',['question_id'=>$question->id])}}" class="btn btn-sm btn-warning">Edit</a>
                                         </span>
                                        
                                     </div>
@@ -157,9 +147,9 @@
                     
                     <h5 class="col-md-12 col-sm-12 col-xs-12 question-right">
                         <span class="add-q-btn" style="display:flex;justify-content:center;">
-                            @if (isset($questions) && !empty($questions))  
+                            @if (isset($questions) && !empty($questions))                                
                                 @if ($exam->question->sum('mark') < $exam->total_mark)
-                                <a class="btn btn-sm btn-info" href="{{route('admin.add_question_form',['exam_id'=>encrypt($exam->id)])}}">Add Question</a>
+                                <a class="btn btn-sm btn-info" href="{{route('admin.add_bidya_question_form',['exam_id'=>encrypt($exam->id)])}}">Add Question</a>
                                 @endif
                             @endif
                         </span>

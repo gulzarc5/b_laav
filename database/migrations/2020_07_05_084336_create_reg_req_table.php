@@ -23,6 +23,7 @@ class CreateRegReqTable extends Migration
             $table->text('address')->nullable();
             $table->string('city')->nullable();
             $table->string('pin')->nullable();
+            $table->char('status',1)->default(1)->status('1 = account_created,2 = Not created');
             $table->timestamps();
         });
     }
