@@ -62,7 +62,7 @@ class StudentController extends Controller
 
     public function viewSubjectFile($file_name)
     {
-        $path = storage_path('app\question_file\\'.$file_name);
+        $path = storage_path('app\subject_file\\'.$file_name);
         if (!File::exists($path)) 
             $response = 404;
 

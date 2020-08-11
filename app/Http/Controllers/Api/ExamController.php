@@ -13,6 +13,8 @@ use App\Model\QuestionOption;
 
 use App\Model\StudentExamDetail;
 use Auth;
+use File;
+use Response;
 
 class ExamController extends Controller
 {
@@ -179,5 +181,18 @@ class ExamController extends Controller
                 return response()->json($response, 200);  
             }
         }
+    }
+
+    public function viewQuestionFile($file_name)
+    {
+        $path = storage_path('app\question_file\\'.$file_name);
+        if (!File::exists($path)) 
+            $response = 404;
+
+        $file = File::get($path);
+        $type = File::mimeType($path);
+        $response = Response::make($file, 200);
+        $response->header("Content-Type", $type);
+        return $response;
     }
 }
