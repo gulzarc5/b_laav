@@ -49,7 +49,7 @@ class SubjectController extends Controller
 
     public function listSubjectFile()   
     {
-        return view('admin.subject_file.subject_file_list',compact('subject_file'));
+        return view('admin.subject_file.subject_file_list');
     }
 
     public function listSubjectFileAjax(Request $request)
