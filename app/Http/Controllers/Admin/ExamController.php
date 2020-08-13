@@ -350,7 +350,7 @@ class ExamController extends Controller
     
     public function viewQuestionFile($file_name)
     {
-        $path = storage_path('app\question_file\\'.$file_name);
+        $path = storage_path('/app/question_file/'.$file_name);
         if (!File::exists($path)) 
             $response = 404;
 

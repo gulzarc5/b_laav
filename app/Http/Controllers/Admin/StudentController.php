@@ -34,7 +34,6 @@ class StudentController extends Controller
         ]);
         $org_id = Auth::guard('admin')->id();
         $org_name = Auth::guard('admin')->user()->name;
-        dd();
 
         $student = new User();
         $student->name = $request->input('s_name');
