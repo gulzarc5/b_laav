@@ -13,6 +13,7 @@ use App\Model\Admin;
 use File;
 use Response;
 use App\Model\RegRequest;
+use App\Model\SubjectVideo;
 
 class StudentController extends Controller
 {
@@ -71,6 +72,19 @@ class StudentController extends Controller
         $response = Response::make($file, 200);
         $response->header("Content-Type", $type);
         return $response;
+    }
+
+    public function subjectVideoList($user_id,$subject_id)
+    {
+        $user = User::where('id',$user_id)->first();
+        $subject_video = SubjectVideo::where('subject_id',$subject_id)->orderBy('status','desc')->get();
+        
+
+        $response = [
+            'status' => true,
+            'data' => $subject_video,
+        ];    	
+        return response()->json($response, 200);
     }
 
 

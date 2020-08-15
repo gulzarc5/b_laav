@@ -29,13 +29,22 @@ Route::group(['namespace'=>'Api'], function(){
         Route::get('class/list/{org_id}','StudentController@classList');
         Route::get('subject/file/{user_id}/{subject_id}','StudentController@subjectFileList');
         Route::get('/view/{file_name}', 'StudentController@viewSubjectFile');
-
+        
+        Route::get('subject/video/{user_id}/{subject_id}','StudentController@subjectVideoList');
         
         Route::get('/exam/list/{subject_id}/{user_id}', 'ExamController@examList');
 
         Route::get('/exam/start/{exam_id}/{user_id}', 'ExamController@examStart');
         Route::get('/submit/question/{stuednt_exam_id}/{question_id}/{answer_id}', 'ExamController@submitQuestion');
         Route::get('/end/exam/{stuednt_exam_id}/{question_id}/{answer_id}', 'ExamController@endExam');
+
+        ROute::group(['prefix'=>'bidya'],function(){
+            Route::get('/exam/list/{user_id}', 'BidyaExamController@examList');
+
+            Route::get('/exam/start/{exam_id}/{user_id}', 'BidyaExamController@examStart');
+            Route::get('/submit/question/{stuednt_exam_id}/{question_id}/{answer_id}', 'ExamController@submitQuestion');
+            Route::get('/end/exam/{stuednt_exam_id}/{question_id}/{answer_id}', 'ExamController@endExam');
+        });
     });
 });
 

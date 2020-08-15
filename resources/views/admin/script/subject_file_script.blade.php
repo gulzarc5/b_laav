@@ -79,5 +79,27 @@
 
     function remove_file(id) {
         $("#subfile"+id).remove();
+        count_sub--;
+    }
+
+    var count_video = 1 ; 
+    function add_video_div() {
+        var Html = `<div id='subfile${count_video}'>
+            <div class="col-md-10 col-sm-10 col-xs-12 mb-3" >
+                <label for="video">Enter Video Id</label>
+                <input type="text" class="form-control" name="video_id[]" placeholder="Enter Video Id" required >
+            </div>
+
+            <div class="col-md-2 col-sm-2 col-xs-12 mb-3" id="sub_div">
+                <button type="button" class="btn btn-sm btn-danger" style="margin-top: 25px;" onclick="remove_video_div(${count_video})">Remove</button>
+            </div>
+        </div>`;
+        $("#sub_file_div").append(Html);
+        count_video++;
+    }
+
+    function remove_video_div(id) {
+        $("#subfile"+id).remove();
+        count_video--;
     }
 </script>

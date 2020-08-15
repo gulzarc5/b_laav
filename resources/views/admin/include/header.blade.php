@@ -105,7 +105,8 @@
                     <ul class="nav child_menu">
                       <li class="sub_menu"><a href="{{route('admin.class_list')}}">Class</a></li>
                       <li class="sub_menu"><a href="{{route('admin.subject_list')}}">Subject</a></li>
-                      <li class="sub_menu"><a href="{{route('admin.subject_file_list')}}">Subject File</a></li>
+                      <li class="sub_menu"><a href="{{route('admin.subject_file_list')}}">Subject File</a></li>                      
+                      <li class="sub_menu"><a href="{{route('admin.subject_video_list')}}">Subject Videos</a></li>
                     </ul>
                   </li>
 

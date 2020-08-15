@@ -63,6 +63,13 @@ Route::group(['namespace' => 'Admin'],function(){
             Route::get('/view/{file_name}', 'SubjectController@viewSubjectFile')->name('admin.view_file_subject');
         });
 
+        Route::group(['prefix' => 'subject/video'],function(){
+            Route::get('/list', 'VideoController@listSubjectVideo')->name('admin.subject_video_list');
+            Route::get('/list/ajax', 'VideoController@listSubjectVideoAjax')->name('admin.subject_video_list_ajax');
+            Route::get('/add/form', 'VideoController@addSubjectVideo')->name('admin.subject_video_add');
+            Route::post('/insert', 'VideoController@insertSubjectVideo')->name('admin.insert_video_subject');
+        });
+
         Route::group(['prefix' => 'exam'],function(){
             Route::get('/list', 'ExamController@listExams')->name('admin.exam_list');
             Route::get('/list/ajax', 'ExamController@listExamsAjax')->name('admin.exam_list_ajax');
