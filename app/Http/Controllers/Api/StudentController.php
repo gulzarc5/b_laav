@@ -48,11 +48,8 @@ class StudentController extends Controller
     public function subjectFileList($user_id,$subject_id)
     {
         $user = User::where('id',$user_id)->first();
-        if ($user->status == '1') {
-            $subject_file = SubjectFile::where('subject_id',$subject_id)->where('status',2)->get();
-        }else{
-            $subject_file = SubjectFile::where('subject_id',$subject_id)->where('status',1)->get();
-        }
+
+        $subject_file = SubjectFile::where('subject_id',$subject_id)->get();
 
         $response = [
             'status' => true,
