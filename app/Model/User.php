@@ -41,4 +41,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo('App\Model\Classes','class_id','id');
     }
+
+    public function org()
+    {
+        return $this->belongsTo('App\Model\Admin','org_id','id');
+    }
 }

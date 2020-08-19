@@ -4,11 +4,11 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class BidyaExam extends Model
+class BidyaExamPermission extends Model
 {
-    protected $table = 'bidya_exam';
+    protected $table = 'bidya_student_exam_permission';
     protected $fillable = [
-        'org_id','name','start_date','end_date','exam_status','exam_type','total_mark','pass_mark','duration',
+        'org_id','student_id','bidya_exam_id',
     ];
 
     public function question()
@@ -20,8 +20,9 @@ class BidyaExam extends Model
     {
         return $this->hasMany('App\Model\BidyaExamClass','exam_id','id');
     }
-    public function BidyaStudentExam()
+
+    public function student()
     {
-        return $this->hasOne('App\Model\StudentExam','bidya_exam_id','id');
+        return $this->hasOne('App\Model\User','id','student_id');
     }
 }

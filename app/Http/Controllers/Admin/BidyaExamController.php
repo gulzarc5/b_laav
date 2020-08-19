@@ -10,6 +10,8 @@ use App\Model\Stream;
 use App\Model\Classes;
 use App\Model\BidyaExamQuestion;
 use App\Model\BidyaQuestionOption;
+use App\Model\BidyaExamPermission;
+use App\Model\User;
 use Auth;
 use DataTables;
 use File;
@@ -77,7 +79,8 @@ class BidyaExamController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function($row){
                 $btn ='<a href="'.route('admin.edit_exam_form',['exam_id'=>encrypt($row->id)]).'" class="btn btn-warning btn-sm" target="_blank">Edit</a>
-                <a href="'.route('admin.view_bidya_question',['exam_id'=>encrypt($row->id)]).'" class="btn btn-info btn-sm" target="_blank">View Questions</a>';
+                <a href="'.route('admin.view_bidya_question',['exam_id'=>encrypt($row->id)]).'" class="btn btn-info btn-sm" target="_blank">View Questions</a>
+                <a href="'.route('admin.add_other_org_student',['exam_id'=>encrypt($row->id)]).'" class="btn btn-info btn-sm" target="_blank">View Other Org Students</a>';
                 
                 return $btn;
             })
@@ -440,5 +443,129 @@ class BidyaExamController extends Controller
         return redirect()->back()->with('message','Question Updated Successfully');
 
     }
+
+    public function addOtherOrgStudent($exam_id)
+    {
+        try {
+            $exam_id = decrypt($exam_id);
+        }catch(DecryptException $e) {
+            return redirect()->back();
+        }
+        // $org_id = Auth::guard('admin')->id();
+        $exam = BidyaExam::find($exam_id);
+        $other_org_student = BidyaExamPermission::where('bidya_exam_id',$exam_id)->get();
+
+        return view('admin.bidya_exam.other_org_student_add',compact('exam','other_org_student'));
+    }
+
+    public function addOtherOrgStudentForm($exam_id)
+    {
+        try {
+            $exam_id = decrypt($exam_id);
+        }catch(DecryptException $e) {
+            return redirect()->back();
+        }
+        $exam = BidyaExam::find($exam_id);
+        return view('admin.bidya_exam.add_other_org_student',compact('exam'));
+    }
+
+    public function checkOtherOrgStudent($exam_id,$student_id)
+    { 
+        $student = null;
+        
+        if (User::where('student_id',$student_id)->count() > 0) {
+            $student = User::where('student_id',$student_id)->first();
+        }elseif (User::where('email',$student_id)->count() > 0) {
+            $student = User::where('email',$student_id)->first();
+        }else{
+            return '2'; //means No student Found
+        }
+
+        
+        if (!empty($student)) {
+            $classes = BidyaExamClass::where('class_id',$student->class_id)->where('exam_id',$exam_id)->first();
+            if ($classes->count() > 0) {
+                if ($student->org_id == '1') {
+                    if ($student->status =='1') {
+                        $html = '<div class="col-md-6 col-sm-12 col-xs-12 mb-3" >
+                            <label for="question_mark">Student Name <span style="color:red"> * </span></label>
+                            <input type="text" class="form-control" name="question_mark" value="'.$student->name.'" disabled>    
+                        </div>
+                        <div class="col-md-6 col-sm-12 col-xs-12 mb-3" >
+                            <label for="question_mark">Student Father Name <span style="color:red"> * </span></label>
+                            <input type="text" class="form-control" name="question_mark" value="'.$student->father_name.'" disabled>    
+                        </div>
+                        <div class="col-md-6 col-sm-12 col-xs-12 mb-3" >
+                            <label for="question_mark">Student Email <span style="color:red"> * </span></label>
+                            <input type="text" class="form-control" name="question_mark" value="'.$student->email.'" disabled>    
+                        </div>
+                        <div class="col-md-6 col-sm-12 col-xs-12 mb-3" >
+                            <label for="question_mark">Student Class <span style="color:red"> * </span></label>
+                            <input type="text" class="form-control" name="question_mark" value="'.$student->class->name.'" disabled>    
+                        </div>';
+                        return response()->json( $html, 200);
+                    }else{                        
+                        return '4'; // the student is for bidyalaav 
+                    }
+                } else {
+                    $html = '<div class="col-md-6 col-sm-12 col-xs-12 mb-3" >
+                        <label for="question_mark">Student Name <span style="color:red"> * </span></label>
+                        <input type="text" class="form-control" name="question_mark" value="'.$student->name.'" disabled>    
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-xs-12 mb-3" >
+                        <label for="question_mark">Student Father Name <span style="color:red"> * </span></label>
+                        <input type="text" class="form-control" name="question_mark" value="'.$student->father_name.'" disabled>    
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-xs-12 mb-3" >
+                        <label for="question_mark">Student Email <span style="color:red"> * </span></label>
+                        <input type="text" class="form-control" name="question_mark" value="'.$student->email.'" disabled>    
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-xs-12 mb-3" >
+                        <label for="question_mark">Student Class <span style="color:red"> * </span></label>
+                        <input type="text" class="form-control" name="question_mark" value="'.$student->class->name.'" disabled>    
+                    </div>';
+                    return response()->json( $html, 200);
+                    // return $html;
+                }                
+                
+            } else {
+                return "3"; //means student class does not matched with exam class
+            }
+            
+        } else {
+            return '2'; //means No student Found
+        }
+        
+
+    }
+
+    public function insertOtherOrgStudent(Request $request)
+    {
+        $this->validate($request, [
+            'exam_id'   => 'required',
+            'student_id' => 'required',
+        ]);
+
+        $student_id = $request->input('student_id'); 
+        $exam_id = $request->input('exam_id'); 
+
+        $student = null;
+        if (User::where('student_id',$student_id)->count() > 0) {
+            $student = User::where('student_id',$student_id)->first();
+        }elseif (User::where('email',$student_id)->count() > 0) {
+            $student = User::where('email',$student_id)->first();
+        }
+        $permission_check = BidyaExamPermission::where('bidya_exam_id',$exam_id)->where('student_id',$student->id)->count();
+        if ($permission_check == 0) {
+            $permission = new BidyaExamPermission();        
+            $permission->org_id = $student->org_id;
+            $permission->student_id = $student->id;
+            $permission->bidya_exam_id = $exam_id;
+            $permission->save();
+        }
+        return redirect()->back()->with('message','Permission Of Exam Set Successfully');
+        
+    }
+
 }
 

@@ -21,10 +21,13 @@ class ExamController extends Controller
     public function examList($subject_id,$user_id)
     {
         $user = User::where('id',$user_id)->first();
-        if ($user->status == '1') {
-            $exams = Exam::where('subject_id',$subject_id)->where('exam_type',1)->where('exam_status',2)->orderBy('id','desc')->get();
-        } else { 
-            $exams = Exam::where('subject_id',$subject_id)->where('exam_type',2)->where('exam_status',2)->orderBy('id','desc')->get();
+
+        $exams = Exam::where('subject_id',$subject_id)->where('exam_status',2)->orderBy('id','desc')->limit(20)->get();
+        foreach ($exams as $key => $value) {
+            $value->student_exam_status = 3; // 1 = exam started, 2 = ended, 3 = not started yet
+            if (isset($value->student_exam->exam_status)) {
+                $value->student_exam_status = $value->student_exam->exam_status;
+            }
         }
         $response = [
             'status' => true,

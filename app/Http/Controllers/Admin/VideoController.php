@@ -69,8 +69,11 @@ class VideoController extends Controller
             'class' => 'required',
             'subject' => 'required',
             'video_id.*' => 'required',
+            'video_title.*' => 'required',
         ]);
         $video_id =  $request->input('video_id');
+        $video_title =  $request->input('video_title');
+        $video_description =  $request->input('video_description');
         $org_id = Auth::guard('admin')->id();
         $subject = $request->input('subject');
         $video_type = $request->input('video_type');
@@ -81,6 +84,10 @@ class VideoController extends Controller
                 $subject_file->subject_id = $subject;
                 $subject_file->org_id = $org_id;
                 $subject_file->video_id = $video_id[$i];
+                $subject_file->title = $video_title[$i];
+                if (isset($video_description[$i]) && !empty($video_description[$i])) {
+                    $subject_file->description = $video_description[$i];
+                }
                 $subject_file->status = $video_type;
                 $subject_file->save();
 

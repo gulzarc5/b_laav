@@ -18,6 +18,8 @@ class CreateSubjectVideoTable extends Migration
             $table->bigInteger('subject_id');
             $table->bigInteger('org_id');
             $table->string('video_id');
+            $table->text('title')->nullable();
+            $table->longText('description')->nullable();
             $table->char('status',1)->default(1)->comment('1 = Premium,2 = Sample');
             $table->timestamps();
         });

@@ -102,6 +102,11 @@ Route::group(['namespace' => 'Admin'],function(){
 
             Route::get('/edit/question/form/{question_id}', 'BidyaExamController@editQuestionForm')->name('admin.edit_bidya_question_form');
             Route::post('/update/question/', 'BidyaExamController@updateQuestion')->name('admin.update_bidya_question');
+            Route::get('/add/org/student/{exam_id}', 'BidyaExamController@addOtherOrgStudent')->name('admin.add_other_org_student');
+
+            Route::get('/add/org/student/form/{exam_id}', 'BidyaExamController@addOtherOrgStudentForm')->name('admin.add_other_org_student_form');
+            Route::post('/insert/org/student/', 'BidyaExamController@insertOtherOrgStudent')->name('admin.insert_other_org_student');
+            Route::get('/org/student/check/{exam_id}/{student_id}', 'BidyaExamController@checkOtherOrgStudent')->name('admin.check_other_org_student');
         });
 
         Route::group(['prefix' => 'student/exam'],function(){

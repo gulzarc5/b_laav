@@ -92,8 +92,16 @@
                                     </div> --}}
 
                                     <div class="col-md-10 col-sm-10 col-xs-12 mb-3" >
+                                        <label for="video">Enter Video Title</label>
+                                        <input type="text" class="form-control" name="video_title[]" placeholder="Enter Video Title" required >
+                                    </div>
+                                    <div class="col-md-10 col-sm-10 col-xs-12 mb-3" >
                                         <label for="video">Enter Video Id</label>
                                         <input type="text" class="form-control" name="video_id[]" placeholder="Enter Video Id" required >
+                                    </div>
+                                    <div class="col-md-10 col-sm-10 col-xs-12 mb-3" >
+                                        <label for="video">Enter Video Description</label>
+                                        <textarea type="text" class="form-control" name="video_description[]" placeholder="Enter Video Description" required ></textarea>
                                     </div>
 
                                     <div class="col-md-2 col-sm-2 col-xs-12 mb-3">

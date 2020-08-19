@@ -24,4 +24,8 @@ class Exam extends Model
     {
         return $this->hasMany('App\Model\ExamQuestion','exam_id','id');
     }
+    public function student_exam()
+    {
+        return $this->hasOne('App\Model\StudentExam','exam_id','id');
+    }
 }
