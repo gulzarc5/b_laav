@@ -52,7 +52,7 @@ class BidyaExamController extends Controller
 
     public function examStart($exam_id,$user_id)
     {
-        $org_id = Auth::guard('admin')->id();
+        $org_id = 1;
         //check exam already started or not
         $exam = BidyaExam::where('id',$exam_id)->first();
         $user = User::where('id',$user_id)->first();
