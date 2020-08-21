@@ -33,8 +33,10 @@ class BidyaExamController extends Controller
                     $item->student_exam_status = $item->student_exam->exam_status;
                 }
                 foreach ($item->examClass as $class) {
+                    $class->class;
                     if ($class->class_id == $user->class_id) {
                         $exam[] = $item;
+                       
                     }
                     
                 }
@@ -67,7 +69,7 @@ class BidyaExamController extends Controller
             $response = [
                 'status' => false,
                 'message' => 'Sorry Yor are not authorize to start Exam42',
-                'data' => $data,
+                'data' => null,
             ]; 
         }
 
@@ -202,7 +204,7 @@ class BidyaExamController extends Controller
                     $response = [
                         'status' => false,
                         'message' => 'Sorry You Are Not Authorized For This Exam',
-                        'data' => $data,
+                        'data' => null,
                     ]; 
                     return response()->json($response, 200);  
                 }
