@@ -14,6 +14,8 @@ use File;
 use Response;
 use App\Model\RegRequest;
 use App\Model\SubjectVideo;
+use App\Model\StudentExam;
+use App\Model\BidyaStudentExam;
 
 class StudentController extends Controller
 {
@@ -84,5 +86,24 @@ class StudentController extends Controller
         return response()->json($response, 200);
     }
 
+    public function myExamList($user_id)
+    {
+       $data =  StudentExam::with('exam')->where('student_id',$user_id)->orderBy('id','desc')->limit(30)->get();
+       $response = [
+            'status' => true,
+            'data' => $data,
+        ];    	
+        return response()->json($response, 200);
+    }
+
+    public function myBidyaExamList($user_id)
+    {
+       $data =  BidyaStudentExam::with('exam')->where('student_id',$user_id)->orderBy('id','desc')->limit(30)->get();
+       $response = [
+            'status' => true,
+            'data' => $data,
+        ];    	
+        return response()->json($response, 200);
+    }
 
 }

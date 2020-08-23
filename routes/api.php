@@ -38,6 +38,12 @@ Route::group(['namespace'=>'Api'], function(){
         Route::get('/submit/question/{stuednt_exam_id}/{question_id}/{answer_id}', 'ExamController@submitQuestion');
         Route::get('/end/exam/{stuednt_exam_id}/{question_id}/{answer_id}', 'ExamController@endExam');
 
+
+        Route::get('/my/exam/list/{user_id}', 'StudentController@myExamList');
+        Route::get('/my/bidya/exam/list/{user_id}', 'StudentController@myBidyaExamList');
+
+
+
         ROute::group(['prefix'=>'bidya'],function(){
             Route::get('/exam/list/{user_id}', 'BidyaExamController@examList');
 
