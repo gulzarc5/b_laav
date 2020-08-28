@@ -25,6 +25,7 @@
                               <th>City</th>
                               <th>Pin</th>
                               <th>Date</th>
+                              <th>Action</th>
                             </tr>
                           </thead>
                           <tbody>  
@@ -43,6 +44,7 @@
                                       <td>{{$item->city}}</td>
                                       <td>{{$item->pin}}</td>
                                       <td>{{$item->created_at}}</td>
+                                      <td><a href="{{route('admin.org_edit',['id'=>$item->id])}}" class="btn btn-warning">Edit</a></td>
                                     </tr>
                                 @endforeach
                             @else

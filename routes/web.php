@@ -26,17 +26,24 @@ Route::group(['namespace' => 'Admin'],function(){
         Route::group(['prefix' => 'organization'],function(){
             Route::get('/list', 'OrganizationController@listOrg')->name('admin.org_list');
             Route::get('/add/form', 'OrganizationController@addOrg')->name('admin.org_add');
+            Route::get('/edit/form/{id}', 'OrganizationController@editOrg')->name('admin.org_edit');
             Route::post('/insert', 'OrganizationController@insertOrg')->name('admin.insert_org');
+            Route::put('/update/{id}', 'OrganizationController@updateOrg')->name('admin.update_org');
         });
 
         Route::group(['prefix' => 'student'],function(){
             Route::get('/premium/list', 'StudentController@listPreStudent')->name('admin.pre_student_list');
             Route::get('/premium/list/ajax', 'StudentController@listPreStudentAjax')->name('admin.pre_student_list_ajax');
-            Route::get('/Free/list', 'StudentController@listFreeStudent')->name('admin.free_student_list');
-            Route::get('/Free/list/ajax', 'StudentController@listFreeStudentAjax')->name('admin.free_student_list_ajax');
+
+            Route::get('/org/list', 'StudentController@listOrgStudent')->name('admin.org_student_list');
+            Route::get('/org/list/ajax', 'StudentController@listOrgStudentAjax')->name('admin.org_student_list_ajax');
+           
             Route::get('/add/form', 'StudentController@addStudent')->name('admin.student_add');
             Route::post('/insert', 'StudentController@insertStudent')->name('admin.insert_student');
+            Route::get('/edit/form/{id}', 'StudentController@editStudent')->name('admin.student_edit');
+            Route::put('/update/{id}', 'StudentController@updateStudent')->name('admin.update_student');
             Route::get('/request/list', 'StudentController@listRequestStudent')->name('admin.request_student_list');
+            Route::get('/request/delete/{id}', 'StudentController@deleteRequestStudent')->name('admin.request_student_delete');
             Route::get('/request/list/ajax', 'StudentController@listRequestStudentAjax')->name('admin.request_student_list_ajax');
         });
 
@@ -44,7 +51,8 @@ Route::group(['namespace' => 'Admin'],function(){
             Route::get('/list', 'ClassController@listClass')->name('admin.class_list');
             Route::get('/add/form', 'ClassController@addClass')->name('admin.class_add');
             Route::post('/insert', 'ClassController@insertClass')->name('admin.insert_class');
-            Route::get('/list/ajax/{stream_id}', 'ClassController@listClassAjax')->name('admin.list_class_ajax');
+            Route::get('/list/ajax/{stream_id}/{org_id?}', 'ClassController@listClassAjax')->name('admin.list_class_ajax');
+
         });
 
         Route::group(['prefix' => 'subject'],function(){
@@ -124,6 +132,16 @@ Route::group(['namespace' => 'Admin'],function(){
 
             // Route::get('/edit/question/form/{question_id}', 'BidyaExamController@editQuestionForm')->name('admin.edit_bidya_question_form');
             // Route::post('/update/question/', 'BidyaExamController@updateQuestion')->name('admin.update_bidya_question');
+        });
+
+        Route::group(['prefix' => 'app/setting'],function(){
+            Route::get('/list', 'DashboardController@ListData')->name('admin.app_setting_list');
+            Route::get('/image/form', 'DashboardController@imageForm')->name('admin.imageForm');
+            Route::post('/image/insert', 'DashboardController@imageInsert')->name('admin.imageInsert');
+            Route::get('/image/delete/{id}', 'DashboardController@imageDelete')->name('admin.imageDelete');
+
+            Route::get('/video/form', 'DashboardController@videoForm')->name('admin.videoForm');
+            Route::post('/video/insert', 'DashboardController@videoInsert')->name('admin.videoInsert');
         });
 
 

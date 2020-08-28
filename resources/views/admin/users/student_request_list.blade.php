@@ -27,7 +27,6 @@
                               <th>State</th>
                               <th>City</th>
                               <th>Pin</th>
-                              <th>Status</th>
                               <th>Action</th>
                             </tr>
                           </thead>
@@ -54,7 +53,7 @@
               processing: true,
               serverSide: true,
               iDisplayLength: 25,
-              ajax: "{{ route('admin.pre_student_list_ajax') }}",
+              ajax: "{{ route('admin.request_student_list_ajax') }}",
               columns: [
                   {data: 'DT_RowIndex', name: 'DT_RowIndex'},      
                   {data: 'created_at', name: 'created_at',searchable: true},    
@@ -66,8 +65,7 @@
                   {data: 'address', name: 'address' ,searchable: true},
                   {data: 'state', name: 'state' ,searchable: true},
                   {data: 'city', name: 'city' ,searchable: true},
-                  {data: 'pin', name: 'pin' ,searchable: true},
-                  {data: 'status_tabs', name: 'status_tabs' ,searchable: true}, 
+                  {data: 'pin', name: 'pin' ,searchable: true}, 
                   {data: 'action', name: 'action' ,searchable: true}, 
               ]
           });            

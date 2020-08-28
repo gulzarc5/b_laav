@@ -96,7 +96,8 @@
                     <ul class="nav child_menu">
                       <li class="sub_menu"><a href="{{route('admin.student_add')}}">Add Student</a></li>
                       <li class="sub_menu"><a href="{{route('admin.pre_student_list')}}">Student List</a></li>
-                      <li class="sub_menu"><a href="{{route('admin.free_student_list')}}">Free User List</a></li>
+                      <li class="sub_menu"><a href="{{route('admin.org_student_list')}}">Organization Student List</a></li>
+                     
                       <li class="sub_menu"><a href="{{route('admin.request_student_list')}}">Registration Request</a></li>
                     </ul>
                   </li>
@@ -122,6 +123,8 @@
                       <li class="sub_menu"><a href="{{route('admin.bidya_exam_list')}}">Bidya Exam</a></li>
                     </ul>
                   </li>
+
+                  <li><a href="{{route('admin.app_setting_list')}}"><i class="fa fa-cogs" aria-hidden="true"></i> App Setting</a></li>
                  
 
                   <li> <a href="{{route('admin.change_password_form')}}"><i class="fa fa-key" aria-hidden="true"></i>Change Password</a></li>

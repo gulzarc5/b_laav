@@ -13,7 +13,7 @@
     	    <div class="x_panel">
 
     	        <div class="x_title">
-    	            <h2>Add New Student</h2>
+    	            <h2>Edit Student</h2>
     	            <div class="clearfix"></div>
     	        </div>
                 <div>
@@ -26,10 +26,11 @@
 
                 </div>
     	        <div>
+                    @if (isset($student) && !empty($student))                        
     	            <div class="x_content">
     	           
-    	            	{{ Form::open(['method' => 'post','route'=>'admin.insert_student']) }}
-    	            	
+    	            	{{ Form::open(['method' => 'put','route'=>['admin.update_student','id'=>$student->id]]) }}
+    	            	<input type="hidden" name="student_id" value="{{$student->id}}">
                         <div class="well" style="overflow: auto">
                             <div class="form-row mb-10">
                                 <div class="col-md-6 col-sm-12 col-xs-12 mb-3">
@@ -38,7 +39,11 @@
                                         <option value="">Select Organization</option>
                                         @if (isset($organization) && !empty($organization))
                                             @foreach ($organization as $item)
+                                                @if ($student->org_id == $item->id)
+                                                <option value="{{$item->id}}" selected>{{$item->name}}</option>
+                                                @else    
                                                 <option value="{{$item->id}}">{{$item->name}}</option>
+                                                @endif
                                             @endforeach
                                         @endif
                                     </select>
@@ -55,7 +60,11 @@
                                         <option value="">Select Stream</option>
                                         @if (isset($stream) && !empty($stream))
                                             @foreach ($stream as $item)
+                                                @if ($student->class->stream->id == $item->id)
+                                                <option value="{{$item->id}}" selected>{{$item->name}}</option>
+                                                @else
                                                 <option value="{{$item->id}}">{{$item->name}}</option>
+                                                @endif
                                             @endforeach
                                         @endif
                                     </select>
@@ -70,6 +79,15 @@
                                   <label for="class">Select Class <span style="color:red"> * </span></label>
                                   <select class="form-control" name="class" id="classes">
                                       <option value="">Select Class</option>
+                                      @if (isset($class) && !empty($class))
+                                        @foreach ($class as $item)
+                                            @if ($student->class_id == $item->id)
+                                            <option value="{{$item->id}}" selected>{{$item->name}}</option>
+                                            @else
+                                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                            @endif
+                                        @endforeach
+                                      @endif
                                   </select>
                                   @if($errors->has('class'))
                                         <span class="invalid-feedback" role="alert" style="color:red">
@@ -80,7 +98,7 @@
 
                                 <div class="col-md-6 col-sm-12 col-xs-12 mb-3">
                                     <label for="mobile">Mobile Number <span style="color:red"> * </span></label>
-                                    <input type="number" class="form-control" name="mobile"  placeholder="Enter Mobile Number"  value="{{ old('mobile') }}" >
+                                    <input type="number" class="form-control" name="mobile"  placeholder="Enter Mobile Number"  value="{{ $student->mobile }}" >
                                     @if($errors->has('mobile'))
                                         <span class="invalid-feedback" role="alert" style="color:red">
                                             <strong>{{ $errors->first('mobile') }}</strong>
@@ -92,20 +110,10 @@
                             <div class="form-row mb-10">
                                 <div class="col-md-6 col-sm-12 col-xs-12 mb-3">
                                     <label for="email">Email <span style="color:red"> * </span></label>
-                                    <input type="text" class="form-control" name="email"  placeholder="Enter Email"  value="{{ old('email') }}" >
+                                    <input type="text" class="form-control" name="email"  placeholder="Enter Email"  value="{{ $student->email }}" >
                                     @if($errors->has('email'))
                                         <span class="invalid-feedback" role="alert" style="color:red">
                                             <strong>{{ $errors->first('email') }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-
-                                <div class="col-md-6 col-sm-12 col-xs-12 mb-3">
-                                    <label for="password">Password <span style="color:red"> * </span></label>
-                                    <input type="text" class="form-control" name="password"  placeholder="Enter Password"  value="{{ old('password') }}" >
-                                    @if($errors->has('password'))
-                                        <span class="invalid-feedback" role="alert" style="color:red">
-                                            <strong>{{ $errors->first('password') }}</strong>
                                         </span>
                                     @enderror
                                 </div>
@@ -118,7 +126,7 @@
                                 
                                 <div class="col-md-6 col-sm-12 col-xs-12 mb-3">
                                     <label for="s_name">Student Name <span style="color:red"> * </span></label>
-                                    <input type="text" class="form-control" name="s_name"  placeholder="Enter Student Name"  value="{{ old('s_name') }}" >
+                                    <input type="text" class="form-control" name="s_name"  placeholder="Enter Student Name"  value="{{ $student->name }}" >
                                     @if($errors->has('s_name'))
                                         <span class="invalid-feedback" role="alert" style="color:red">
                                             <strong>{{ $errors->first('s_name') }}</strong>
@@ -128,7 +136,7 @@
 
                                 <div class="col-md-6 col-sm-12 col-xs-12 mb-3">
                                     <label for="father_name">Father Name</label>
-                                    <input type="text" class="form-control" name="father_name"  placeholder="Enter Father Name"  value="{{ old('father_name') }}" >
+                                    <input type="text" class="form-control" name="father_name"  placeholder="Enter Father Name"  value="{{ $student->father_name }}" >
                                     @if($errors->has('father_name'))
                                         <span class="invalid-feedback" role="alert" style="color:red">
                                             <strong>{{ $errors->first('father_name') }}</strong>
@@ -140,7 +148,7 @@
                             <div class="form-row mb-10">
                                 <div class="col-md-6 col-sm-12 col-xs-12 mb-3">
                                     <label for="mother_name">Mother Name</label>
-                                    <input type="text" class="form-control" name="mother_name"  placeholder="Enter Mother Name"  value="{{ old('mother_name') }}" >
+                                    <input type="text" class="form-control" name="mother_name"  placeholder="Enter Mother Name"  value="{{ $student->mother_name }}" >
                                     @if($errors->has('mother_name'))
                                         <span class="invalid-feedback" role="alert" style="color:red">
                                             <strong>{{ $errors->first('mother_name') }}</strong>
@@ -150,7 +158,7 @@
 
                                 <div class="col-md-6 col-sm-12 col-xs-12 mb-3">
                                     <label for="dob">Date Of Birth <span style="color:red"> * </span></label>
-                                    <input type="date" class="form-control" name="dob"  placeholder="Enter Date Of Birth"  value="{{ old('dob') }}" >
+                                    <input type="date" class="form-control" name="dob"  placeholder="Enter Date Of Birth"  value="{{ $student->dob }}" >
                                     @if($errors->has('dob'))
                                         <span class="invalid-feedback" role="alert" style="color:red">
                                             <strong>{{ $errors->first('dob') }}</strong>
@@ -165,7 +173,7 @@
                             <div class="form-row mb-10">
                                 <div class="col-md-12 col-sm-12 col-xs-12 mb-3">
                                     <label for="address" required>Address</label>
-                                    <textarea class="form-control" rows="4" name="address" placeholder="Type Address">{{ old('address') }}</textarea>
+                                    <textarea class="form-control" rows="4" name="address" placeholder="Type Address">{{ $student->address }}</textarea>
                                     @if($errors->has('address'))
                                         <span class="invalid-feedback" role="alert" style="color:red">
                                             <strong>{{ $errors->first('address') }}</strong>
@@ -177,7 +185,7 @@
                             <div class="form-row mb-3">
                                 <div class="col-md-4 col-sm-12 col-xs-12 mb-3">
                                     <label for="state">State</label>
-                                    <input type="text" class="form-control" name="state"  placeholder="Enter State Name" >
+                                    <input type="text" class="form-control" name="state"  placeholder="Enter State Name" value="{{$student->state}}">
                                     @if($errors->has('state'))
                                         <span class="invalid-feedback" role="alert" style="color:red">
                                             <strong>{{ $errors->first('state') }}</strong>
@@ -187,7 +195,7 @@
 
                                 <div class="col-md-4 col-sm-12 col-xs-12 mb-3">
                                     <label for="city">City</label>
-                                    <input type="text" class="form-control" name="city"  placeholder="Enter City Name"  >
+                                    <input type="text" class="form-control" name="city"  placeholder="Enter City Name"  value="{{$student->city}}">
                                     @if($errors->has('city'))
                                         <span class="invalid-feedback" role="alert" style="color:red">
                                             <strong>{{ $errors->first('city') }}</strong>
@@ -197,7 +205,7 @@
 
                                 <div class="col-md-4 col-sm-12 col-xs-12 mb-3">
                                     <label for="pin">Enter Pin No.</label>
-                                    <input type="number" class="form-control" name="pin"  placeholder="Enter Pin No"  >
+                                    <input type="number" class="form-control" name="pin"  placeholder="Enter Pin No" value="{{$student->pin}}" >
                                     @if($errors->has('pin'))
                                         <span class="invalid-feedback" role="alert" style="color:red">
                                             <strong>{{ $errors->first('pin') }}</strong>
@@ -216,6 +224,7 @@
     	            	{{ Form::close() }}
 
     	            </div>
+                    @endif
     	        </div>
     	    </div>
     	</div>
@@ -228,7 +237,7 @@
 
  @section('script')
  <script>
-     function get_class_list(stream_id) {
+      function get_class_list(stream_id) {
         var org_id = $("#organization").val();
         if (org_id) {
             $.ajaxSetup({

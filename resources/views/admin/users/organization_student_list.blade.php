@@ -8,7 +8,7 @@
     	    <div class="x_panel">
 
     	        <div class="x_title">
-                    <h2>Free User List</h2>
+                    <h2>Organization Student List</h2>
     	            <div class="clearfix"></div>
     	        </div>
     	        <div>
@@ -52,7 +52,7 @@
          processing: true,
          serverSide: true,
          iDisplayLength: 25,
-         ajax: "{{ route('admin.free_student_list_ajax') }}",
+         ajax: "{{ route('admin.org_student_list_ajax') }}",
          columns: [
              {data: 'DT_RowIndex', name: 'DT_RowIndex'},      
              {data: 'name', name: 'name',searchable: true},    

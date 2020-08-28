@@ -13,7 +13,7 @@
     	    <div class="x_panel">
 
     	        <div class="x_title">
-    	            <h2>Add New Organization</h2>
+    	            <h2>Edit Organization Details</h2>
     	            <div class="clearfix"></div>
     	        </div>
                 <div>
@@ -26,9 +26,10 @@
 
                 </div>
     	        <div>
+                    @if (isset($org) && !empty($org))
     	            <div class="x_content">
     	           
-    	            	{{ Form::open(['method' => 'post','route'=>'admin.insert_org' ,'enctype'=>'multipart/form-data']) }}
+    	            	{{ Form::open(['method' => 'put','route'=>['admin.update_org','id'=>$org->id] ,'enctype'=>'multipart/form-data']) }}
     	            	
                         <div class="well" style="overflow: auto">
                             <div class="form-row mb-10">
@@ -43,7 +44,7 @@
                                 </div>
                                 <div class="col-md-6 col-sm-12 col-xs-12 mb-3">
                                   <label for="name">Organization Name</label>
-                                  <input type="text" class="form-control" name="name"  placeholder="Enter Organization Name"  value="{{ old('name') }}" >
+                                  <input type="text" class="form-control" name="name"  placeholder="Enter Organization Name"  value="{{ $org->name }}" >
                                   @if($errors->has('name'))
                                         <span class="invalid-feedback" role="alert" style="color:red">
                                             <strong>{{ $errors->first('name') }}</strong>
@@ -53,22 +54,10 @@
 
                                 <div class="col-md-6 col-sm-12 col-xs-12 mb-3">
                                     <label for="email">Email</label>
-                                    <input type="text" class="form-control" name="email"  placeholder="Enter Email"  value="{{ old('email') }}" >
+                                    <input type="text" class="form-control" name="email"  placeholder="Enter Email"  value="{{ $org->email }}" >
                                     @if($errors->has('email'))
                                         <span class="invalid-feedback" role="alert" style="color:red">
                                             <strong>{{ $errors->first('email') }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="form-row mb-10">
-                                <div class="col-md-6 col-sm-12 col-xs-12 mb-3">
-                                    <label for="password">Password</label>
-                                    <input type="text" class="form-control" name="password"  placeholder="Enter Password"  value="{{ old('password') }}" >
-                                    @if($errors->has('password'))
-                                        <span class="invalid-feedback" role="alert" style="color:red">
-                                            <strong>{{ $errors->first('password') }}</strong>
                                         </span>
                                     @enderror
                                 </div>
@@ -80,7 +69,7 @@
                             <div class="form-row mb-10">
                                 <div class="col-md-12 col-sm-12 col-xs-12 mb-3">
                                     <label for="address" required>Address</label>
-                                    <textarea class="form-control" rows="4" name="address" placeholder="Type Address">{{ old('address') }}</textarea>
+                                    <textarea class="form-control" rows="4" name="address" placeholder="Type Address">{{ $org->address }}</textarea>
                                     @if($errors->has('address'))
                                         <span class="invalid-feedback" role="alert" style="color:red">
                                             <strong>{{ $errors->first('address') }}</strong>
@@ -92,7 +81,7 @@
                             <div class="form-row mb-3">
                                 <div class="col-md-4 col-sm-12 col-xs-12 mb-3">
                                     <label for="state">State</label>
-                                    <input type="text" class="form-control" name="state"  placeholder="Enter State Name" >
+                                    <input type="text" class="form-control" name="state"  placeholder="Enter State Name" value="{{$org->state}}">
                                     @if($errors->has('state'))
                                         <span class="invalid-feedback" role="alert" style="color:red">
                                             <strong>{{ $errors->first('state') }}</strong>
@@ -102,7 +91,7 @@
 
                                 <div class="col-md-4 col-sm-12 col-xs-12 mb-3">
                                     <label for="city">City</label>
-                                    <input type="text" class="form-control" name="city"  placeholder="Enter City Name"  >
+                                    <input type="text" class="form-control" name="city"  placeholder="Enter City Name"  value="{{$org->city}}">
                                     @if($errors->has('city'))
                                         <span class="invalid-feedback" role="alert" style="color:red">
                                             <strong>{{ $errors->first('city') }}</strong>
@@ -112,7 +101,7 @@
 
                                 <div class="col-md-4 col-sm-12 col-xs-12 mb-3">
                                     <label for="pin">Enter Pin No.</label>
-                                    <input type="number" class="form-control" name="pin"  placeholder="Enter Pin No"  >
+                                    <input type="number" class="form-control" name="pin"  placeholder="Enter Pin No" value="{{$org->pin}}" >
                                     @if($errors->has('pin'))
                                         <span class="invalid-feedback" role="alert" style="color:red">
                                             <strong>{{ $errors->first('pin') }}</strong>
@@ -131,6 +120,7 @@
     	            	{{ Form::close() }}
 
     	            </div>
+                    @endif
     	        </div>
     	    </div>
     	</div>

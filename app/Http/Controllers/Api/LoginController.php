@@ -16,7 +16,7 @@ class LoginController extends Controller
         $user_email = $request->input('email');
         $user_pass = $request->input('password');  
         if (!empty($user_email) && !empty($user_pass) ) {
-            $user = User::where('email',$user_email)->first();
+            $user = User::where('email',$user_email)->where('status',2)->first();
             if ($user) {
                 if(Hash::check($user_pass, $user->password)){ 
                     $user_update = User::where('id',$user->id)
