@@ -13,13 +13,9 @@ use Illuminate\Support\Str;
 class DashboardController extends Controller
 {
     public function userDashboard($user_id)
-    {
-
-        $class = Classes::with('subject')->get();
-        
+    {        
         $video = AppSetting::find(1);
         $data = [
-            'class' => $class,
             'video' => $video,
         ];
         $response = [
@@ -67,14 +63,11 @@ class DashboardController extends Controller
         $reg_request->api_token = Str::random(60);
         
         if ($reg_request->save()) {
-            $data = [
-                'user_id'=>$reg_request->id,
-                'api_key' => $reg_request->api_token,
-            ];
+
              $response = [
                 'status' => true,
                 'message' => 'Request Sent Successfully',
-                'data' => $data,
+                'data' => $reg_request,
                 'error_code' => false,
                 'error_message' => $validator->errors(),
             ];    	

@@ -52,6 +52,9 @@ Route::group(['namespace' => 'Admin'],function(){
             Route::get('/add/form', 'ClassController@addClass')->name('admin.class_add');
             Route::post('/insert', 'ClassController@insertClass')->name('admin.insert_class');
             Route::get('/list/ajax/{stream_id}/{org_id?}', 'ClassController@listClassAjax')->name('admin.list_class_ajax');
+            
+            Route::get('/edit/form/{id}', 'ClassController@editClass')->name('admin.class_edit');
+            Route::put('/update/{id}', 'ClassController@updateClass')->name('admin.update_class');
 
         });
 

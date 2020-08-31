@@ -54,4 +54,10 @@ class ClassController extends Controller
         return $class;
     }
 
+    public function editClass($id)
+    {
+        $class = Classes::find($id);
+        return view('admin.class.edit_class',compact('class'));
+    }
+
 }

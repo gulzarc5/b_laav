@@ -40,7 +40,7 @@
                                       </td>
                                       <td>{{$item->created_at}}</td>
                                       <td>
-                                        <a href="" class="btn btn-sm btn-warning">Edit</a>
+                                        <a href="{{route('admin.class_edit',['id'=>$item->id])}}" class="btn btn-sm btn-warning">Edit</a>
                                       </td>
                                     </tr>
                                 @endforeach
