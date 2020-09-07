@@ -44,12 +44,18 @@ Route::group(['namespace'=>'Api'], function(){
 
 
 
-        ROute::group(['prefix'=>'bidya'],function(){
+        Route::group(['prefix'=>'bidya'],function(){
             Route::get('/exam/list/{user_id}', 'BidyaExamController@examList');
-
             Route::get('/exam/start/{exam_id}/{user_id}', 'BidyaExamController@examStart');
             Route::get('/submit/question/{stuednt_exam_id}/{question_id}/{answer_id}', 'BidyaExamController@submitQuestion');
             Route::get('/end/exam/{stuednt_exam_id}/{question_id}/{answer_id}', 'BidyaExamController@endExam');
+        });
+
+        Route::group(['prefix'=>'chat'],function(){            
+            Route::get('/list/{user_id}', 'ChatController@chatList');
+            Route::post('/send/message/', 'ChatController@addMessage');
+            Route::get('/like/message/{chat_details_id}/{is_liked}', 'ChatController@likeMessage');
+
         });
     });
 });
