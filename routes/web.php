@@ -62,6 +62,8 @@ Route::group(['namespace' => 'Admin'],function(){
             Route::get('/list', 'SubjectController@listSubject')->name('admin.subject_list');
             Route::get('/add/form', 'SubjectController@addSubject')->name('admin.subject_add');
             Route::post('/insert', 'SubjectController@insertSubject')->name('admin.insert_subject');
+            Route::put('/update/{subject_id}', 'SubjectController@updateSubject')->name('admin.update_subject');
+            Route::get('/edit/{subject_id}', 'SubjectController@editSubject')->name('admin.edit_subject');
             
             Route::get('/list/ajax/{class_id}', 'SubjectController@listSubjectAjax')->name('admin.list_subject_ajax');
         });
@@ -72,6 +74,8 @@ Route::group(['namespace' => 'Admin'],function(){
             Route::get('/add/form', 'SubjectController@addSubjectFile')->name('admin.subject_file_add');
             Route::post('/insert', 'SubjectController@insertSubjectFile')->name('admin.insert_file_subject');
             Route::get('/view/{file_name}', 'SubjectController@viewSubjectFile')->name('admin.view_file_subject');
+            Route::get('/edit/form/{file_id}', 'SubjectController@editSubjectFile')->name('admin.subject_file_edit');
+            Route::put('/update/form/{file_id}', 'SubjectController@updateSubjectFile')->name('admin.subject_file_update');
         });
 
         Route::group(['prefix' => 'subject/video'],function(){

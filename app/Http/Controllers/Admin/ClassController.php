@@ -57,7 +57,21 @@ class ClassController extends Controller
     public function editClass($id)
     {
         $class = Classes::find($id);
-        return view('admin.class.edit_class',compact('class'));
+        $stream = Stream::get();
+        return view('admin.class.edit_class',compact('class','stream'));
+    }
+
+    public function updateClass(Request $request,$class_id)
+    {
+        $this->validate($request, [
+            'stream'   => 'required',
+            'name' => 'required'
+        ]);
+        $class = Classes::find($class_id);
+        $class->stream_id = $request->input('stream');
+        $class->name = $request->input('name');
+        $class->save();
+        return redirect()->back()->with('message','Class Updated Successfully');
     }
 
 }

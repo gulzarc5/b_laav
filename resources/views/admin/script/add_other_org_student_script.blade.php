@@ -24,17 +24,12 @@ function check_student(student_id) {
             console.log(data);
             if (!$.isEmptyObject(data)) {
                 if (data == '2') {
-                    $("#student_info").html('<center>Sorry! No Student Found</center>');
-                    $("#st_add_btn").hide();
-                } else if(data == '3'){
-                    $("#student_info").html('<center>Sorry! Student Class Does Not matched With Exam Class</center>');
-                    $("#st_add_btn").hide();
-                } else if(data == '4'){
-                    $("#student_info").html('<center>Student Already in bidyalaav</center>');
-                    $("#st_add_btn").hide();
-                }else{
-                    $("#student_info").html(data);
+                    $("#student_info").html('<center><Login><b style="color:green">Login Id Available</b></center>');
                     $("#st_add_btn").show();
+                }else{
+                    $("#student_info").html('<center><b style="color:red">Sorry Login Id Not available</b></center>');
+                    $("#st_add_btn").hide();
+                    $("#login_id").val('');
                 }
             }else{
                 $("#student_info").html('<p>No data found</p>');

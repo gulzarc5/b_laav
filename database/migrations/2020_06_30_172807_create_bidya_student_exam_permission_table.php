@@ -15,9 +15,18 @@ class CreateBidyaStudentExamPermissionTable extends Migration
     {
         Schema::create('bidya_student_exam_permission', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('org_id')->nullable();
-            $table->bigInteger('student_id');
-            $table->bigInteger('bidya_exam_id');
+            $table->bigInteger('exam_id');
+            $table->string('login_id');
+            $table->string('password');
+            $table->string('name',256);
+            $table->string('email',256)->nullable();
+            $table->string('mobile',256)->nullable();
+            $table->string('father_name',256)->nullable();
+            $table->string('school_name',256)->nullable();
+            $table->string('class_name',256)->nullable();
+            $table->date('dob')->nullable();
+            $table->char('gender')->comment('M=male,F=female');
+            $table->text('address')->nullable();
             $table->timestamps();
         });
     }

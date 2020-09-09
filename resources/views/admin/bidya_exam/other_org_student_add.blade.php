@@ -86,7 +86,7 @@
             <div class="x_panel">
                 <div class="x_title">
                     <h2 style="float: left">Student List</h2>
-                    <h2 style="float: right"><a href="{{route('admin.add_other_org_student_form',['exam_id'=>encrypt($exam->id)])}}" class="btn btn-sm btn-info">Add Other Organization Student</a></h2>
+                    <h2 style="float: right"><a href="{{route('admin.add_other_org_student_form',['exam_id'=>encrypt($exam->id)])}}" class="btn btn-sm btn-info">Add Student for Exam</a></h2>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
@@ -98,9 +98,17 @@
                                 <thead>
                                   <tr>
                                     <th>Sl</th>
+                                    <th>Login Id</th>
+                                    <th>Password</th>
                                     <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Mobile</th>
+                                    <th>Father Name</th>
+                                    <th>School Name</th>
                                     <th>Class</th>
-                                    <th>Organization Name</th>
+                                    <th>Date of Birth</th>
+                                    <th>Gender</th>
+                                    <th>Address</th>
                                     <th>Date</th>
                                     <th>Action</th>
                                   </tr>
@@ -113,17 +121,22 @@
                                       @foreach ($other_org_student as $item)
                                           <tr>
                                             <td>{{$count++}}</td>
-                                            <td>{{$item->student->name}}</td>
-                                            <td>
-                                              @if (isset($item->student_id) && !empty($item->student_id))
-                                                  {{$item->student->class->name}}
-                                              @endif
-                                            </td>
-                                            <td>
-                                                @if (isset($item->student_id) && !empty($item->student_id))
-                                                    {{$item->student->org->name}}
-                                                @endif
-                                              </td>
+                                            <td>{{$item->login_id}}</td>
+                                            <td>{{$item->password}}</td>
+                                            <td>{{$item->name}}</td>
+                                            <td>{{$item->email}}</td>
+                                            <td>{{$item->mobile}}</td>
+                                            <td>{{$item->father_name}}</td>
+                                            <td>{{$item->school_name}}</td>
+                                            <td>{{$item->class_name}}</td>
+                                            <td>{{$item->dob}}</td>
+                                            @if ($item->gender == 'M')
+                                                <td>Male</td>
+                                            @else
+                                                <td>Female</td>
+                                            @endif
+                                            <td>{{$item->address}}</td>
+                                            
                                             <td>{{$item->created_at}}</td>
                                             <td>
                                               <a href="" class="btn btn-sm btn-danger">Remove Permission</a>

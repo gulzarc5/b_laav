@@ -46,6 +46,7 @@ Route::group(['namespace'=>'Api'], function(){
 
         Route::group(['prefix'=>'bidya'],function(){
             Route::get('/exam/list/{user_id}', 'BidyaExamController@examList');
+            Route::post('/exam/login/check', 'BidyaExamController@examLoginCheck');
             Route::get('/exam/start/{exam_id}/{user_id}', 'BidyaExamController@examStart');
             Route::get('/submit/question/{stuednt_exam_id}/{question_id}/{answer_id}', 'BidyaExamController@submitQuestion');
             Route::get('/end/exam/{stuednt_exam_id}/{question_id}/{answer_id}', 'BidyaExamController@endExam');

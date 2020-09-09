@@ -55,24 +55,21 @@ class BidyaExamController extends Controller
         $org_id = 1;
         //check exam already started or not
         $exam = BidyaExam::where('id',$exam_id)->first();
-        $user = User::where('id',$user_id)->first();
-        $exam_status = false;
-        if ($exam) {
-            foreach ($exam->examClass as $class) {
-                if ($class->class_id == $user->class_id) {
-                    $exam_status = true;
-                    break;
-                }
+        $user = BidyaExamPermission::where('id',$user_id)->first();
+
+        $check_exam_end = BidyaStudentExam::where('student_id',$user_id)->where('bidya_exam_id',$exam_id)->first();
+        if ($check_exam_end) {
+            if ($check_exam_end->exam_status == '2') {
+                $response = [
+                    'status' => false,
+                    'message' => 'Sorry Ypu Already Appeared The Exam',
+                    'data' => null,
+                ]; 
+                return response()->json($response, 200);  
             }
         }
-        if ($exam_status == false) {
-            $response = [
-                'status' => false,
-                'message' => 'Sorry Yor are not authorize to start Exam42',
-                'data' => null,
-            ]; 
-        }
 
+        //exam_type 1 = free user, 2 = premium user
         if ($exam->exam_type == '1') {
             $check_s_exam = BidyaStudentExam::where('student_id',$user_id)->where('bidya_exam_id',$exam_id)->count();
             if ($check_s_exam > 0) {
@@ -94,7 +91,6 @@ class BidyaExamController extends Controller
                 return response()->json($response, 200);  
             }else{
                 $exam_start = new BidyaStudentExam();
-                $exam_start->org_id = $exam->org_id;
                 $exam_start->student_id = $user_id;
                 $exam_start->bidya_exam_id = $exam_id;
                 $exam_start->exam_status = 1;
@@ -115,101 +111,53 @@ class BidyaExamController extends Controller
                 return response()->json($response, 200);  
             }
         } elseif($exam->exam_type == '2') {
-            if ($user->org_id == $org_id) {
-                $check_s_exam = BidyaStudentExam::where('student_id',$user_id)->where('bidya_exam_id',$exam_id)->count();
-                if ($check_s_exam > 0) {
-                    //check exam ended or not
-                    $question = BidyaExamQuestion::with('options')->where('bidya_exam_id',$exam_id)->get();
-                    $appeared_exam = BidyaStudentExam::where('student_id',$user_id)->where('bidya_exam_id',$exam_id)->first();
-                    $appeared_question = BidyaStudentExamDetail::where('student_exam_id',$appeared_exam->id)->get();
-                    $data = [
-                        'exam_status'=>2,
-                        'student_exam_id' => $appeared_exam->id,
-                        'questions'=>$question,
-                        'appeared_question'=>$appeared_question,
-                    ];
-                    $response = [
-                        'status' => true,
-                        'message' => 'Exam Started',
-                        'data' => $data,
-                    ]; 
-                    return response()->json($response, 200);  
-                }else{
-                    $exam_start = new BidyaStudentExam();
-                    $exam_start->org_id = $exam->org_id;
-                    $exam_start->student_id = $user_id;
-                    $exam_start->bidya_exam_id = $exam_id;
-                    $exam_start->exam_status = 1;
-                    $exam_start->save();
-
-                    $question = BidyaExamQuestion::with('options')->where('bidya_exam_id',$exam_id)->get();
-                    $data = [
-                        'exam_status'=>1,
-                        'student_exam_id' => $exam_start->id,
-                        'questions'=>$question,
-                        'appeared_question'=>[],
-                    ];
-                    $response = [
-                        'status' => true,
-                        'message' => 'Exam Started',
-                        'data' => $data,
-                    ]; 
-                    return response()->json($response, 200);  
-                }
-            } else {
-                $permission_chk = BidyaExamPermission::where('student_id',$user_id)->where('bidya_exam_id',$exam_id)->count();
-                if ($permission_chk > 0) {
-                    $check_s_exam = BidyaStudentExam::where('student_id',$user_id)->where('bidya_exam_id',$exam_id)->count();
-                    if ($check_s_exam > 0) {
-                        //check exam ended or not
-                        $question = BidyaExamQuestion::with('options')->where('bidya_exam_id',$exam_id)->get();
-                        $appeared_exam = BidyaStudentExam::where('student_id',$user_id)->where('bidya_exam_id',$exam_id)->first();
-                        $appeared_question = BidyaStudentExamDetail::where('student_exam_id',$appeared_exam->id)->get();
-                        $data = [
-                            'exam_status'=>2,
-                            'student_exam_id' => $appeared_exam->id,
-                            'questions'=>$question,
-                            'appeared_question'=>$appeared_question,
-                        ];
-                        $response = [
-                            'status' => true,
-                            'message' => 'Exam Started',
-                            'data' => $data,
-                        ]; 
-                        return response()->json($response, 200);  
-                    }else{
-                        $exam_start = new BidyaStudentExam();
-                        $exam_start->org_id = $exam->org_id;
-                        $exam_start->student_id = $user_id;
-                        $exam_start->bidya_exam_id = $exam_id;
-                        $exam_start->exam_status = 1;
-                        $exam_start->save();
-
-                        $question = BidyaExamQuestion::with('options')->where('bidya_exam_id',$exam_id)->get();
-                        $data = [
-                            'exam_status'=>1,
-                            'student_exam_id' => $exam_start->id,
-                            'questions'=>$question,
-                            'appeared_question'=>[],
-                        ];
-                        $response = [
-                            'status' => true,
-                            'message' => 'Exam Started',
-                            'data' => $data,
-                        ]; 
-                        return response()->json($response, 200);  
-                    }
-                }else{
-                    $data = [];
-                    $response = [
-                        'status' => false,
-                        'message' => 'Sorry You Are Not Authorized For This Exam',
-                        'data' => null,
-                    ]; 
-                    return response()->json($response, 200);  
-                }
+            if (!$user) {
+                $response = [
+                    'status' => false,
+                    'message' => 'Sorry Yor are not authorize to start Exam42',
+                    'data' => null,
+                ];             
+                return response()->json($response, 200);  
             }
-            
+            $check_s_exam = BidyaStudentExam::where('student_id',$user_id)->where('bidya_exam_id',$exam_id)->count();
+            if ($check_s_exam > 0) {
+                //check exam ended or not
+                $question = BidyaExamQuestion::with('options')->where('bidya_exam_id',$exam_id)->get();
+                $appeared_exam = BidyaStudentExam::where('student_id',$user_id)->where('bidya_exam_id',$exam_id)->first();
+                $appeared_question = BidyaStudentExamDetail::where('student_exam_id',$appeared_exam->id)->get();
+                $data = [
+                    'exam_status'=>2,
+                    'student_exam_id' => $appeared_exam->id,
+                    'questions'=>$question,
+                    'appeared_question'=>$appeared_question,
+                ];
+                $response = [
+                    'status' => true,
+                    'message' => 'Exam Started',
+                    'data' => $data,
+                ]; 
+                return response()->json($response, 200);  
+            }else{
+                $exam_start = new BidyaStudentExam();
+                $exam_start->student_id = $user_id;
+                $exam_start->bidya_exam_id = $exam_id;
+                $exam_start->exam_status = 1;
+                $exam_start->save();
+
+                $question = BidyaExamQuestion::with('options')->where('bidya_exam_id',$exam_id)->get();
+                $data = [
+                    'exam_status'=>1,
+                    'student_exam_id' => $exam_start->id,
+                    'questions'=>$question,
+                    'appeared_question'=>[],
+                ];
+                $response = [
+                    'status' => true,
+                    'message' => 'Exam Started',
+                    'data' => $data,
+                ]; 
+                return response()->json($response, 200);  
+            }
         }
         
     }
@@ -335,5 +283,50 @@ class BidyaExamController extends Controller
         $response = Response::make($file, 200);
         $response->header("Content-Type", $type);
         return $response;
+    }
+
+    public function examLoginCheck(Request $request)
+    {
+        $validator =  Validator::make($request->all(),[
+            'exam_id' => 'required',
+            'login_id' => 'required',
+            'password' => 'required',
+        ]);
+
+        if ($validator->fails()) {
+            $response = [
+                'status' => false,
+                'message' => 'Validation Error',
+                'error_code' => true,
+                'error_message' => $validator->errors(),
+            ];    	
+            return response()->json($response, 200);
+        }
+        $login_id = strtolower(trim($request->input('login_id')));
+        $password = strtolower(trim($request->input('password')));
+        $exam_id = $request->input('exam_id');
+        $check = BidyaExamPermission::where('exam_id',$exam_id)->where('login_id',$login_id)->where('password',$password);
+        if ($check->count() > 0) {
+            $user = $check->first();
+            $response = [
+                'status' => true,
+                'message' => 'Login Success',
+                'data' => [
+                    'exam_user_id' => $user->id,
+                ],
+                'error_code' => false,
+                'error_message' => null,
+            ];    	
+            return response()->json($response, 200);
+        } else {
+            $response = [
+                'status' => false,
+                'message' => 'User Id or Password Wrong',
+                'error_code' => false,
+                'error_message' => null,
+            ];    	
+            return response()->json($response, 200);
+        }
+        
     }
 }

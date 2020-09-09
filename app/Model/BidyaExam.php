@@ -22,6 +22,6 @@ class BidyaExam extends Model
     }
     public function BidyaStudentExam()
     {
-        return $this->hasOne('App\Model\StudentExam','bidya_exam_id','id');
+        return $this->hasOne('App\Model\StudentExam','exam_id','id');
     }
 }

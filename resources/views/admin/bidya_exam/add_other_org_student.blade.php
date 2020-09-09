@@ -14,7 +14,7 @@
             <div class="x_panel">
                 <div class="x_title">
                     <div>
-                        <h2>Add Other Organization Student For Exam {{$exam->name}}</h2>
+                        <h2>Add Student For <b style="color:green"> {{$exam->name}}</b></h2>
                     </div>
                     <div class="col-md-12">
                         @if (Session::has('message'))
@@ -23,7 +23,7 @@
                         @if (Session::has('error'))
                             <div class="alert alert-danger">{{ Session::get('error') }}</div>
                         @endif
-                    <div>
+                    </div>
                 <div class="clearfix"></div>
               </div>
               <div class="x_content">
@@ -32,19 +32,10 @@
                        	<input type="hidden" name="exam_id" value="{{$exam->id}}" id="exam_id_inpt">
                         
                         <div class="well" style="overflow: auto">
-                            {{-- <div class="col-md-12 col-sm-12 col-xs-12" style="border:0px solid #e5e5e5;">
-                                <div class="row product-view-tag">
-                                    <h5 class="col-md-4 col-sm-4 col-xs-12">
-                                            <span class="question-left"><strong>Exam Total Mark : </strong></span>
-                                            <span class="question-right">{{$exam->total_mark}}</span>
-                                    </h5>
-                                </div>
-                            </div>  --}}
-
                             <div class="form-row mb-10" id="question-div">
                                 <div class="col-md-12 col-sm-12 col-xs-12 mb-3">
-                                    <label for="student_id">Enter Student Id/Email<span style="color:red"> * </span></label>
-                                    <input type="text" class="form-control" name="student_id" onchange="check_student(this.value)">
+                                    <label for="student_id">Enter Student Login ID<span style="color:red"> * </span></label>
+                                    <input type="text" class="form-control" id="login_id" name="student_id" onchange="check_student(this.value)">
                                     
                                     @if($errors->has('student_id'))
                                             <span class="invalid-feedback" role="alert" style="color:red">
@@ -55,6 +46,72 @@
                                 <span id="student_info">
                                     
                                 </span>
+
+                                <div class="col-md-12 col-sm-12 col-xs-12 mb-3">
+                                    <label for="password">Enter Password<span style="color:red"> * </span></label>
+                                    <input type="text" class="form-control" name="password">
+                                    
+                                    @if($errors->has('password'))
+                                            <span class="invalid-feedback" role="alert" style="color:red">
+                                                <strong>{{ $errors->first('password') }}</strong>
+                                            </span>
+                                    @enderror
+                                </div>
+
+                                <div class="col-md-12 col-sm-12 col-xs-12 mb-3">
+                                    <label for="name">Enter Name<span style="color:red"> * </span></label>
+                                    <input type="text" class="form-control" name="name">
+                                    
+                                    @if($errors->has('name'))
+                                            <span class="invalid-feedback" role="alert" style="color:red">
+                                                <strong>{{ $errors->first('name') }}</strong>
+                                            </span>
+                                    @enderror
+                                </div>
+
+                                <div class="col-md-12 col-sm-12 col-xs-12 mb-3">
+                                    <label for="email">Enter Email</label>
+                                    <input type="email" class="form-control" name="email">
+                                </div>
+
+                                <div class="col-md-12 col-sm-12 col-xs-12 mb-3">
+                                    <label for="mobile">Enter Mobile</label>
+                                    <input type="number" class="form-control" name="mobile">
+                                </div>
+
+                                <div class="col-md-12 col-sm-12 col-xs-12 mb-3">
+                                    <label for="father_name">Father Name</label>
+                                    <input type="text" class="form-control" name="father_name">
+                                </div>
+
+                                <div class="col-md-12 col-sm-12 col-xs-12 mb-3">
+                                    <label for="school_name">School Name</label>
+                                    <input type="text" class="form-control" name="school_name">
+                                </div>
+
+                                <div class="col-md-12 col-sm-12 col-xs-12 mb-3">
+                                    <label for="class_name">Class Name</label>
+                                    <input type="text" class="form-control" name="class_name">
+                                </div>
+
+                                <div class="col-md-12 col-sm-12 col-xs-12 mb-3">
+                                    <label for="dob">Date of Birth</label>
+                                    <input type="date" class="form-control" name="dob">
+                                </div>
+
+                                <div class="col-md-12 col-sm-12 col-xs-12 mb-3">
+                                    <label for="gender">Gender </label>
+                                    <p style="padding-bottom: 6px; margin-top: 8px;">
+                                        Male:
+                                        <input type="radio" class="flat" name="gender" id="genderM" value="M" checked="" required /> FeMale:
+                                        <input type="radio" class="flat" name="gender" id="genderF" value="F" />
+                                    </p>
+                                </div> 
+
+                                <div class="col-md-12 col-sm-12 col-xs-12 mb-3">
+                                    <label for="address">Address</label>
+                                    <textarea class="form-control" name="address"></textarea>
+                                </div>
             
                                                 
                             </div>
