@@ -52,11 +52,10 @@ Route::group(['namespace'=>'Api'], function(){
             Route::get('/end/exam/{stuednt_exam_id}/{question_id}/{answer_id}', 'BidyaExamController@endExam');
         });
 
-        Route::group(['prefix'=>'chat'],function(){            
-            Route::get('/list/{user_id}', 'ChatController@chatList');
-            Route::post('/send/message/', 'ChatController@addMessage');
-            Route::get('/like/message/{chat_details_id}/{is_liked}', 'ChatController@likeMessage');
-
+        Route::group(['prefix'=>'question'],function(){            
+            Route::get('/list/{page}', 'ChatController@chatList');
+            Route::post('/send', 'ChatController@addMessage');
+            Route::get('/answer/like/{user_id}/{answer_id}', 'ChatController@ansLike');
         });
     });
 });

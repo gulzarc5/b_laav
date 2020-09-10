@@ -125,6 +125,7 @@
                   </li>
 
                   <li><a href="{{route('admin.app_setting_list')}}"><i class="fa fa-cogs" aria-hidden="true"></i> App Setting</a></li>
+                  <li><a href="{{route('admin.question_list')}}"><i class="fa fa-question" aria-hidden="true"></i> Question & Answer</a></li>
                  
 
                   <li> <a href="{{route('admin.change_password_form')}}"><i class="fa fa-key" aria-hidden="true"></i>Change Password</a></li>

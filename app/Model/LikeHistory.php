@@ -4,11 +4,11 @@ namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Chat extends Model
+class LikeHistory extends Model
 {
-    protected $table = 'chat';
+    protected $table = 'like_history';
     protected $fillable = [
-        'user_id'
+        'user_id','answer_id',
     ];
 
     // public function question()

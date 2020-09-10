@@ -151,6 +151,13 @@ Route::group(['namespace' => 'Admin'],function(){
             Route::post('/video/insert', 'DashboardController@videoInsert')->name('admin.videoInsert');
         });
 
+        Route::group(['prefix' => 'ask'],function(){
+            Route::get('list','ChatController@list')->name('admin.question_list');
+            Route::get('list/ajax','ChatController@listAjax')->name('admin.question_list_ajax');
+            Route::get('answer/add/form/{q_id}','ChatController@addAnsForm')->name('admin.add_ans_form');
+            Route::get('answer/view/{q_id}','ChatController@viewAns')->name('admin.ans_view');
+            Route::post('answer/insert','ChatController@insertAnswer')->name('admin.ans_insert');
+        });
 
     });
 });

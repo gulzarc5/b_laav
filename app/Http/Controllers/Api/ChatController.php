@@ -5,28 +5,25 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Validator;
-use App\Model\Chat;
-use App\Model\ChatDetails;
+use App\Model\Question;
+use App\Model\LikeHistory;
+use App\Model\Answer;
+// use App\Model\ChatDetails;
 
 class ChatController extends Controller
 {
-    public function chatList($user_id)
+    public function chatList($page)
     {
-        $chat = Chat::where('user_id',$user_id);
+        $total_rows = Question::count();
+        $limit = ($page*15)-15;
+        $total_page = ceil($total_rows/15);
 
-        if ($chat->count() > 0) {
-            $chat = $chat->first();            
-            $chat->details = ChatDetails::where('chat_id',$chat->id)->orderBy('id','desc')->limit(50)->get();
-        } else {
-            $chat = new Chat();
-            $chat->user_id = $user_id;
-            $chat->save();
-            $chat->details = ChatDetails::where('chat_id',$chat->id)->orderBy('id','desc')->limit(50)->get();
-        }
+        $question = Question::with('answer','user')->orderBy('id','desc')->skip($limit)->take(10)->get();
+        
         $response = [
             'status' => true,
-            'message' => 'chat list of user',
-            'data' => $chat,
+            'message' => 'Question Answer List',
+            'data' => $question,
         ];    	
         return response()->json($response, 200);        
     }
@@ -34,7 +31,8 @@ class ChatController extends Controller
     public function addMessage(Request $request)
     {
         $validator =  Validator::make($request->all(),[
-            'chat_id' => 'required',
+            'user_id' => 'required',
+            'subject' => 'required',
             'message' => 'required',
         ]);
 
@@ -49,10 +47,10 @@ class ChatController extends Controller
         }
         $is_liked = $request->input('is_liked');
 
-        $chatDetails = new ChatDetails();
-        $chatDetails->chat_id = $request->input('chat_id');
+        $chatDetails = new Question();
+        $chatDetails->user_id = $request->input('user_id');
+        $chatDetails->subject = $request->input('subject');
         $chatDetails->message = $request->input('message');
-        $chatDetails->user_type = 1;
         $chatDetails->save();
 
         $response = [
@@ -65,11 +63,19 @@ class ChatController extends Controller
 
     }
 
-    public function likeMessage($chat_details_id,$is_liked)
+    public function ansLike($user_id,$answer_id)
     {
-        $chat_details = ChatDetails::find($chat_details_id);
-        $chat_details->is_liked_user = $is_liked;
-        $chat_details->save();
+        $chk_like = LikeHistory::where('user_id',$user_id)->where('answer_id',$answer_id)->count();
+        if ($chk_like == 0) {
+            $answer = Answer::find($answer_id);
+            $answer->like_count = $answer->like_count+1;
+            $answer->save();
+
+            $like_history = new LikeHistory();
+            $like_history->user_id = $user_id;
+            $like_history->answer_id = $answer_id;
+            $like_history->save();
+        }
         $response = [
             'status' => true,
         ];    	
