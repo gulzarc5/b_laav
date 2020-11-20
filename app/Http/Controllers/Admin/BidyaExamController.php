@@ -55,7 +55,7 @@ class BidyaExamController extends Controller
         $exam->duration = $request->input('duration');
         $exam->exam_status = 1;
         if ($exam->save()) {
-            
+
             if (isset($class) && !empty($class)) {
                 foreach ($class as $key => $value) {
                     $exam_class = New BidyaExamClass();
@@ -68,7 +68,7 @@ class BidyaExamController extends Controller
         } else {
             return redirect()->back()->with('error','Something Went Wrong Please Try Again');
         }
-        
+
     }
 
     public function listExamsAjax(Request $request)
@@ -80,22 +80,22 @@ class BidyaExamController extends Controller
             ->addColumn('action', function($row){
                 $btn ='<a href="'.route('admin.edit_exam_form',['exam_id'=>encrypt($row->id)]).'" class="btn btn-warning btn-sm" target="_blank">Edit</a>
                 <a href="'.route('admin.view_bidya_question',['exam_id'=>encrypt($row->id)]).'" class="btn btn-info btn-sm" target="_blank">View Questions</a>
-                <a href="'.route('admin.add_other_org_student',['exam_id'=>encrypt($row->id)]).'" class="btn btn-info btn-sm" target="_blank">View Other Org Students</a>';
-                
+                <a href="'.route('admin.add_other_org_student',['exam_id'=>encrypt($row->id)]).'" class="btn btn-info btn-sm" target="_blank">Exam Students</a>';
+
                 return $btn;
             })
             ->addColumn('exam_type', function($row){
                 if ($row->exam_type == '1') {
                     return "<button class='btn btn-sm btn-warning'>Free</button>";
                 } else {
-                    return "<button class='btn btn-sm btn-primary'>Premium</button>";            
-                }      
+                    return "<button class='btn btn-sm btn-primary'>Premium</button>";
+                }
             })->addColumn('question_status', function($row){
                 if ($row->exam_status == '1') {
                     return "<button class='btn btn-sm btn-warning'>Not Set</button>";
                 } else {
-                    return "<button class='btn btn-sm btn-primary'>Set</button>";            
-                }      
+                    return "<button class='btn btn-sm btn-primary'>Set</button>";
+                }
             })
             ->rawColumns(['action','subject','class','stream','exam_type','question_status'])
             ->make(true);
@@ -112,7 +112,7 @@ class BidyaExamController extends Controller
     //     $exam = Exam::find($exam_id);
     //     $classes = null;
     //     if (isset($exam->class_id) && !empty($exam->class_id)) {
-            
+
     //         $stream_id = $exam->class->stream_id;
     //         if ($stream_id) {
     //             $classes = Classes::where('stream_id',$stream_id)->get();
@@ -199,13 +199,13 @@ class BidyaExamController extends Controller
             'exam_id'=>'required',
         ]);
 
-        $question_type = $request->input('question_type'); 
-        $question_mark = $request->input('question_mark'); 
-        
-        //Validation of exam mark 
+        $question_type = $request->input('question_type');
+        $question_mark = $request->input('question_mark');
+
+        //Validation of exam mark
         $total_question_mark = BidyaExamQuestion::where('bidya_exam_id',$request->input('exam_id'))->sum('mark');
         $exam = BidyaExam::where('id',$request->input('exam_id'))->first();
-      
+
         if ($exam->total_mark < ($total_question_mark+$question_mark) ) {
             return redirect()->back()->with('error','Mark of question Can Not be greater Then Exam Mark');
         }
@@ -220,16 +220,16 @@ class BidyaExamController extends Controller
                 'question' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:200',
             ]);
             $question = $request->file('question');
-           
+
         }
         $is_correct = $request->input('is_correct');
-        
-        for ($i=1 ; $i <= 4 ; $i++ ) { 
+
+        for ($i=1 ; $i <= 4 ; $i++ ) {
             if ($i <= 2) {
                 $this->validate($request, [
                     'answer_type'.$i   => 'required',
                 ]);
-            } 
+            }
            $answer_type = $request->input('answer_type'.$i);
             if (isset($answer_type) && !empty($answer_type)) {
                 if ($answer_type == '2') {
@@ -237,17 +237,17 @@ class BidyaExamController extends Controller
                         $this->validate($request, [
                             'option'.$i   => 'required',
                         ]);
-                    } 
+                    }
                     $this->validate($request, [
                         'option'.$i   => 'image|mimes:jpeg,png,jpg,gif,svg|max:200',
-                    ]);                    
-                    $answer = $request->file('option');                    
+                    ]);
+                    $answer = $request->file('option');
                 }else{
                     if ($i <= 2) {
                         $this->validate($request, [
                             'option'.$i   => 'required',
                         ]);
-                    } 
+                    }
                 }
             }
         }
@@ -258,39 +258,39 @@ class BidyaExamController extends Controller
         $question_insert->bidya_exam_id = $exam_id;
         $question_insert->question_type = $question_type;
         if ($question_type == 2) {
-            $file = $question;  
+            $file = $question;
             $file_name = $i.time().date('Y-M-d').'.'.$file->getClientOriginalExtension();
             $file->storeAs('question_file/', $file_name);
             $question_insert->question = $file_name;
         } else {
             $question_insert->question = $question;
-        }        
+        }
         $question_insert->mark = $question_mark;
         if ($question_insert->save()) {
             $correct_answer_id = null;
-            
+
             for ($i=1 ; $i <= 4 ; $i++ ) {
 
                $answer_type = $request->input('answer_type'.$i);
                 if (isset($answer_type) && !empty($answer_type)) {
-                    if ($answer_type == '2') {      
+                    if ($answer_type == '2') {
                         if($request->hasfile('option'.$i)) {
 
-                            $file = $request->file('option'.$i);  
+                            $file = $request->file('option'.$i);
                             $file_name = $i.time().date('Y-M-d').'.'.$file->getClientOriginalExtension();
                             $file->storeAs('question_file/', $file_name);
-                            
+
                             $answer_insert = new BidyaQuestionOption();
                             $answer_insert->bidya_exam_question_list_id = $question_insert->id;
                             $answer_insert->option = $file_name;
                             $answer_insert->option_type = $answer_type;
                             if ($answer_insert->save()) {
                                 if ($is_correct == $i) {
-                                    
+
                                     $correct_answer_id = $answer_insert->id;
                                 }
                             }
-                        }                                                    
+                        }
                     }else{
                         $answer = $request->input('option'.$i);
                         if (!empty($answer)) {
@@ -304,29 +304,29 @@ class BidyaExamController extends Controller
 
                                 }
                             }
-                        }  
+                        }
                     }
                 }
             }
             $question_update = BidyaExamQuestion::find($question_insert->id);
             $question_update->correct_answer_id = $correct_answer_id;
-            $question_update->save();    
-            
+            $question_update->save();
+
             if ($exam->total_mark == ($total_question_mark+$question_mark) ) {
                 $exam = BidyaExam::find($request->input('exam_id'));
                 $exam->exam_status = '2';
                 $exam->save();
             }
-    
+
 
             return redirect()->back()->with('message','Question Added Successfully');
         }else{
             return redirect()->back()->with('error','Something Went Wrong Please Try Again');
         }
-        
-        
+
+
     }
-    
+
 
     public function editQuestionForm($question_id)
     {
@@ -335,7 +335,7 @@ class BidyaExamController extends Controller
     }
     public function updateQuestion(Request $request)
     {
-        
+
         $this->validate($request, [
             'question_type'   => 'required',
             'question_mark' => 'required',
@@ -343,13 +343,13 @@ class BidyaExamController extends Controller
             'exam_id'=>'required',
         ]);
         // dd(1);
-        $question_type = $request->input('question_type'); 
-        $question_mark = $request->input('question_mark'); 
+        $question_type = $request->input('question_type');
+        $question_mark = $request->input('question_mark');
         $question_id = $request->input('question_id');
         $exam_id = $request->input('exam_id');
-        //Validation of exam mark 
+        //Validation of exam mark
         $total_question_mark = BidyaExamQuestion::where('bidya_exam_id',$request->input('exam_id'))->where('id','!=',$question_id)->sum('mark');
-        
+
         $exam = BidyaExam::where('id',$request->input('exam_id'))->first();
         if ($exam->total_mark < ($total_question_mark+$question_mark) ) {
             return redirect()->back()->with('error','Total Count Mark of question Can Not be greater Then Exam Mark');
@@ -364,12 +364,12 @@ class BidyaExamController extends Controller
         } else {
             $this->validate($request, [
                 'question' => 'image|mimes:jpeg,png,jpg,gif,svg|max:200',
-            ]);  
-            $question = $request->file('question');         
+            ]);
+            $question = $request->file('question');
         }
         $is_correct = $request->input('is_correct');
         $total_options = BidyaQuestionOption::where('bidya_exam_question_list_id',$question_id)->count();
-        for ($i=1 ; $i <= $total_options ; $i++ ) { 
+        for ($i=1 ; $i <= $total_options ; $i++ ) {
             $this->validate($request, [
                 'answer_type'.$i   => 'required',
                 'option_id'.$i   => 'required',
@@ -377,10 +377,10 @@ class BidyaExamController extends Controller
 
            $answer_type = $request->input('answer_type'.$i);
             if (isset($answer_type) && !empty($answer_type)) {
-                if ($answer_type == '2') { 
+                if ($answer_type == '2') {
                     $this->validate($request, [
                         'option'.$i   => 'image|mimes:jpeg,png,jpg,gif,svg|max:200',
-                    ]);                                        
+                    ]);
                 }else{
                     $this->validate($request, [
                         'option'.$i   => 'required',
@@ -389,12 +389,12 @@ class BidyaExamController extends Controller
             }
         }
 
-        
+
         if ($question_type == 2) {
-            
+
             $question_update = BidyaExamQuestion::find($question_id);
             if ($request->hasFile('question')) {
-                $file = $question;  
+                $file = $question;
                 $file_name = $i.time().date('Y-M-d').'.'.$file->getClientOriginalExtension();
                 $file->storeAs('question_file/', $file_name);
                 $question_update->question = $file_name;
@@ -403,7 +403,7 @@ class BidyaExamController extends Controller
             $question_update->correct_answer_id = $is_correct;
             $question_update->mark = $question_mark;
             $question_update->save();
-            
+
         } else {
             $question_update = BidyaExamQuestion::find($question_id);
             $question_update->question = $question;
@@ -411,29 +411,29 @@ class BidyaExamController extends Controller
             $question_update->correct_answer_id = $is_correct;
             $question_update->mark = $question_mark;
             $question_update->save();
-        }  
-        
-        for ($i=1 ; $i <= $total_options ; $i++ ) { 
+        }
+
+        for ($i=1 ; $i <= $total_options ; $i++ ) {
 
             $option_id = $request->input('option_id'.$i);
             $answer_type = $request->input('answer_type'.$i);
             if (isset($answer_type) && !empty($answer_type) && isset($option_id) && !empty($option_id)) {
-                if ($answer_type == '2') { 
-                    $answer_update = BidyaQuestionOption::find($option_id);                    
+                if ($answer_type == '2') {
+                    $answer_update = BidyaQuestionOption::find($option_id);
                     $answer_update->option_type = $answer_type;
 
                     if($request->hasfile('option'.$i)) {
 
-                        $file = $request->file('option'.$i);  
+                        $file = $request->file('option'.$i);
                         $file_name = $i.time().date('Y-M-d').'.'.$file->getClientOriginalExtension();
                         $file->storeAs('question_file/', $file_name);
-                        
-                        $answer_update->option = $file_name;                        
-                    }     
+
+                        $answer_update->option = $file_name;
+                    }
                     $answer_update->save();
 
                 }else{
-                    $answer_update = BidyaQuestionOption::find($option_id);                    
+                    $answer_update = BidyaQuestionOption::find($option_id);
                     $answer_update->option_type = $answer_type;
                     $answer_update->option = $request->input('option'.$i);
                     $answer_update->save();
@@ -470,14 +470,14 @@ class BidyaExamController extends Controller
     }
 
     public function checkOtherOrgStudent($exam_id,$login_id)
-    { 
+    {
         $student = null;
-        
+
         if (BidyaExamPermission::where('login_id',$login_id)->where('exam_id',$exam_id)->count() > 0) {
            return 1;
         }else{
             return 2; //means No student Found
-        } 
+        }
     }
 
     public function insertOtherOrgStudent(Request $request)
@@ -489,12 +489,12 @@ class BidyaExamController extends Controller
             'name' => 'required',
         ]);
 
-        $student_id = $request->input('student_id'); 
-        $exam_id = $request->input('exam_id'); 
+        $student_id = $request->input('student_id');
+        $exam_id = $request->input('exam_id');
 
         $permission_check = BidyaExamPermission::where('exam_id',$exam_id)->where('login_id',$student_id)->count();
         if ($permission_check == 0) {
-            $permission = new BidyaExamPermission();        
+            $permission = new BidyaExamPermission();
             $permission->exam_id = $exam_id;
             $permission->login_id = strtolower(trim($student_id));
             $permission->password = strtolower(trim($request->input('password')));
@@ -510,9 +510,9 @@ class BidyaExamController extends Controller
             $permission->save();
         }
         return redirect()->back()->with('message','Permission Of Exam Set Successfully');
-        
+
     }
 
-    
+
 }
 

@@ -25,7 +25,7 @@
     <link href="{{asset('admin/vendors/nprogress/nprogress.css')}}" rel="stylesheet">
     <!-- iCheck -->
     <link href="{{asset('admin/vendors/iCheck/skins/flat/green.css')}}" rel="stylesheet">
-  
+
     <!-- bootstrap-progressbar -->
     <link href="{{asset('admin/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css')}}" rel="stylesheet">
     <!-- JQVMap -->
@@ -41,7 +41,7 @@
     <link href="{{asset('admin/vendors/datatables.net-scroller-bs/css/scroller.bootstrap.min.css')}}" rel="stylesheet">
 
     {{-- pnotify --}}
-    
+
    {{--  <link href="{{asset('admin/src_files/vendors/pnotify/dist/pnotify.css')}}" rel="stylesheet">
     <link href="{{asset('admin/src_files/vendors/pnotify/dist/pnotify.buttons.css')}}" rel="stylesheet">
     <link href="{{asset('admin/src_files/vendors/pnotify/dist/pnotify.nonblock.css')}}" rel="stylesheet"> --}}
@@ -71,7 +71,7 @@
               </div> --}}
               <div class="profile_info">
                 <span>Welcome,<b>Admin</b></span>
-                
+
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -97,16 +97,16 @@
                       <li class="sub_menu"><a href="{{route('admin.student_add')}}">Add Student</a></li>
                       <li class="sub_menu"><a href="{{route('admin.pre_student_list')}}">Student List</a></li>
                       <li class="sub_menu"><a href="{{route('admin.org_student_list')}}">Organization Student List</a></li>
-                     
+
                       <li class="sub_menu"><a href="{{route('admin.request_student_list')}}">Registration Request</a></li>
                     </ul>
                   </li>
-				  
+
                   <li><a><i class="fa fa-product-hunt" aria-hidden="true"></i> Classes <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li class="sub_menu"><a href="{{route('admin.class_list')}}">Class</a></li>
                       <li class="sub_menu"><a href="{{route('admin.subject_list')}}">Subject</a></li>
-                      <li class="sub_menu"><a href="{{route('admin.subject_file_list')}}">Subject File</a></li>                      
+                      <li class="sub_menu"><a href="{{route('admin.subject_file_list')}}">Subject File</a></li>
                       <li class="sub_menu"><a href="{{route('admin.subject_video_list')}}">Subject Videos</a></li>
                     </ul>
                   </li>
@@ -117,16 +117,16 @@
                       <li class="sub_menu"><a href="{{route('admin.bidya_exam_list')}}">Bidya Exam</a></li>
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-cogs" aria-hidden="true"></i> Student Exams <span class="fa fa-chevron-down"></span></a>
+                  {{-- <li><a><i class="fa fa-cogs" aria-hidden="true"></i> Student Exams <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li class="sub_menu"><a href="{{route('admin.student_exam_list')}}">Exams</a></li>
                       <li class="sub_menu"><a href="{{route('admin.bidya_exam_list')}}">Bidya Exam</a></li>
                     </ul>
-                  </li>
+                  </li> --}}
 
                   <li><a href="{{route('admin.app_setting_list')}}"><i class="fa fa-cogs" aria-hidden="true"></i> App Setting</a></li>
                   <li><a href="{{route('admin.question_list')}}"><i class="fa fa-question" aria-hidden="true"></i> Question & Answer</a></li>
-                 
+
 
                   <li> <a href="{{route('admin.change_password_form')}}"><i class="fa fa-key" aria-hidden="true"></i>Change Password</a></li>
 
